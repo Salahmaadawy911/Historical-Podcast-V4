@@ -1,0 +1,6 @@
+# regenerable render intermediates (prep_p1.py / assemble_p1.py rebuild them)
+audio/
+broll/
+_runs_*/
+_mix*.wav
+__pycache__/

@@ -19,6 +19,11 @@ for i in ids:
     if not os.path.exists(f): print(f'{i}  missing'); continue
     m = re.search(r'\*\*' + i + r'\*\* · (\w+)(?: · (HOST|GUEST))? · \*\*(\d+)s\*\*([^\n]*)\n`start_frame` `([^`]+)`', kit)
     typ, who, kd, hdr, st = m.groups() if m else ('?', '', '?', '', '')
+    if not m:   # b-roll and the outro have no `start_frame` line and move by design — no camera check (2026-09-28)
+        mb = re.search(r'\*\*' + i + r'\*\* · (BROLL\w*|BUMPER\w*)', kit)
+        if mb:
+            d_ = float(sh(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f]).stdout or 0)
+            print(f'{i}  {mb.group(1)[:6]:6s}  {d_:4.1f}s  camera moves by design — not checked  ✓'); continue
     audio_only = 'picture never used' in hdr   # 720p audio-only: camera, lead and pose do not matter
     dur = float(sh(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f]).stdout or 0)
     has_a = 'audio' in sh(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type', '-of', 'csv=p=0', f]).stdout
@@ -38,16 +43,20 @@ for i in ids:
         if mean < -45: flags.append('QUIET')
         # LOUD-SPAN (2026-09-28, Salah): a sentence Kling pushed well above the take's own level — known before the mix
         eb = sh(['ffmpeg', '-v', 'info', '-i', f, '-af', 'ebur128', '-f', 'null', '-']).stderr
-        st = [float(x) for x in re.findall(r' S:\s*(-?[\d.]+)', eb) if float(x) > -60]
+        sts = [float(x) for x in re.findall(r' S:\s*(-?[\d.]+)', eb) if float(x) > -60]   # not `st` — that is the start frame (side below)
         I_ = re.findall(r'I:\s*(-?[\d.]+) LUFS', eb)
-        if st and I_ and max(st) - float(I_[-1]) > 6: flags.append(f'LOUD-SPAN +{max(st) - float(I_[-1]):.0f}LU')
-        if tail < 0.25: flags.append('TIGHT')
+        if sts and I_ and max(sts) - float(I_[-1]) > 6: flags.append(f'LOUD-SPAN +{max(sts) - float(I_[-1]):.0f}LU')
+        if tail < 0.25:   # measured 2026-09-28: 18 of 19 TIGHT takes were silent in their last 0.12 s — say which case it is
+            e = sh(['ffmpeg', '-v', 'info', '-sseof', '-0.12', '-i', f, '-af', 'volumedetect', '-f', 'null', '-']).stderr
+            m_ = re.search(r'mean_volume: ([-\d.]+)', e)
+            flags.append('TIGHT (ends in silence)' if m_ and float(m_.group(1)) < -55 else 'TIGHT — STILL SOUNDING at the last frame: listen')
         if inner and max(inner) > 2.0: flags.append('PAUSE>2s')
         if lead > 1.5 and not audio_only: flags.append('LEAD>1.5s')
     if audio_only:
         print(f'{i}  {typ[:5]:5s} {who[:1]}  {info}  audio-only (picture unused)  ' + ('✓' if not flags else '⚠ ' + ' '.join(flags))); continue
     side = 'H' if 'host' in st or (who == 'HOST' and 'chain' in st) else 'G'
-    c = sh(['python3', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cam_check.py'), f + ':' + side]).stdout.strip()
+    r = sh(['python3', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cam_check.py'), f + ':' + side]); c = r.stdout.strip()
+    if 'drift' not in c: flags.append('CAM-CHECK-FAILED ' + (r.stderr.strip().splitlines() or ['no output'])[-1][:60])   # never a silent ✓
     dpx = int(re.search(r'drift (\d+) px', c).group(1)) if re.search(r'drift (\d+) px', c) else 0
     if 'MOVED' in c: flags.append('SMALL-DRIFT (stabilise in edit?)' if dpx <= 8 else 'CAMERA-MOVED')   # L31
     if 'ENTERS' in c: flags.append('CORNER')

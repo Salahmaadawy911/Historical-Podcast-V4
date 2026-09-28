@@ -859,6 +859,12 @@ consumers — the `BRAND_pullquote` graphics, the thumbnail overlay candidates (
     speaker's picture after the word: ≥ 5.5 s. If not, in order: (1) move the anchor to the other person's mention of
     the word, if they say it (the card flips side); (2) cover the start of the reply with a listener reaction chained
     from the speaker's clip until the card has gone; (3) ride the card over a b-roll row covering the join.
+  - **Write the constraint, not only the word (L62).** When a placement names a word only to satisfy timing — *"cut
+    back to her after card 06 has gone, around 'with'"* — the constraint is the instruction and the word an estimate
+    from model durations; the edit moves the cut to the nearest sentence boundary that keeps it. Size a covering
+    reaction for the span it must cover (Cleopatra `P1_072`, 3 s, was 1.2 s short of *"to his enemy"*), and a two-up's
+    hold after the line from the take's own tail, not a fixed ~1.5–2 s. A card whose word is the speaker's **first**
+    word cuts to the speaker with the voice, not on the usual J-cut — note it in the row.
   - **One text at a time** — where a `[D]` source credit (Mode 6) would land at the same moment, the card's source line
     is that credit.
   - `context_build.py check` fails any gloss past three lines.

@@ -3,6 +3,19 @@
 > 📋 **Discussion queue — `DISCUSSION_QUEUE.md`: all 7 points settled (2026-09-23).** ⏰ **Next: the two reminders at the end of the queue** — plan all test takes together (T1–T6), then the Part 1 script decisions (incl. rewriting Part 1's §9 to Mode 4 §15 before its publish sheet is built).
 > 🔁 **DECIDED 2026-09-23: rerun Cleopatra from Mode 1** — see **B5** below. The process is mapped in the artifact **The Running Order** (https://claude.ai/artifact/L98t6WjsEfE9G2XuFiHVP7) — **republish it whenever the process changes** (Salah: *"keep it updated always so i can follow up"*).
 
+**Where we are (2026-09-28, Mode 6 chat 1): Cleopatra Part 1 — voice pass done (93/93), opening check run, the
+assembly is cut** → `Episodes/Cleopatra/P1_ASSEMBLY_review.mp4` (10:01, 540p review proxy; `--full` rebuilds 1080p on
+the Mac), cut list `_edit/P1_CUTLIST.md`. **Waiting on Salah: watch it and sign off the cut** (or list changes — they go
+into `_edit/assemble_p1.py`, one line per placement, and the cut is re-rendered).
+**Open before the cut is locked:** (1) **retake `P1_095`** — camera moved 27 px (round sheet row as is, v3); (2) listen
+to the end of **`P1_090`** (*"kingdoms"* still sounding at the last frame) and **`P1_055`** (*"his triumph"* would not
+align); `P1_128` is borderline. (3) Card 07 needs to leave ~0.25 s early (it would touch the act break). (4) `P1_003` holds a 2.6 s still pause before
+the turn — untrimmed (direct address); retime the turn per L38 in the edit.
+**Then the rest of Mode 6 (same or next chat):** re-pick the hook from the cut → `hook_build.py`; cards, lower thirds,
+pull-quotes, subscribe, `[D]` credits, drones, subtitles; two masters; `P1_captions.srt`, `P1_TIMECODES.txt`,
+`P1_EDIT_NOTES.md`, `publish_sheet.py`. Thumbnail rebuild and the playlist `TODO` still block publishing.
+**Cloud sessions need** `apt-get install -y ffmpeg` and `pip install numpy pillow pocketsphinx` first (none are
+preinstalled — see Mode 6 *Tools*); a SessionStart hook would do it automatically.
 **Where we are (2026-09-28): Cleopatra Part 1 — every clip is made** (`Shots/`, outro included) **and every talking clip
 is voice-changed** (`Voice/P1/done/`, 93 of 93). **Skill cleanup done 2026-09-28** (A11). **Next: the edit — Mode 6 in a
 new chat**, first step `batch_check.py`, then assembly.
