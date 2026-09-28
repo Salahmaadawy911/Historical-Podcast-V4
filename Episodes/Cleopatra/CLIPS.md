@@ -98,10 +98,10 @@ the kit and the folder together — run it after every generation session:
 P1_022, P1_041, P1_052, P1_069, P1_070: the room sits **5 px left and ~0.4 % zoomed** against her other poses. In the edit, nudge +5 px and scale 99.6 % so the room lines up on cuts (Mode 6). Clips made from the new frame need nothing.
 
 ## 2026-09-27 — small-chair clips pulled (L41)
-P1_017, P1_046, P1_082, P1_131, P1_132 were made from the small-chair `frame_cleopatra`. Moved to `Shots/_old_chair/`; REGEN P1_017 REGEN P1_046 REGEN P1_082 REGEN P1_131 REGEN P1_132 once the new big-chair `frame_cleopatra` (edited from `_b`) passes.
+P1_017, P1_046, P1_082, P1_131, P1_132 were made from the small-chair `frame_cleopatra`. Moved to `Shots/_old_chair/`; remade (P1_017, P1_046, P1_082, P1_131, P1_132) once the new big-chair `frame_cleopatra` (edited from `_b`) passed. **✅ Done — all five remade and kept in `Shots/`** (checked 2026-09-28: each first frame matches the current `frame_cleopatra` as closely as never-remade clips match theirs, diff 2.4–2.5).
 
 ## 2026-09-27 — old-`_c` clips pulled too (L41)
-P1_022, P1_041, P1_052, P1_069, P1_070 were made from the replaced old `_c`, whose chair also differs from the set (armrests 38–78 px off). Moved to `Shots/_old_chair/`; REGEN P1_022 REGEN P1_041 REGEN P1_052 REGEN P1_069 REGEN P1_070 from the new `_c`. The earlier edit note (nudge +5 px, 99.6 %) is void.
+P1_022, P1_041, P1_052, P1_069, P1_070 were made from the replaced old `_c`, whose chair also differs from the set (armrests 38–78 px off). Moved to `Shots/_old_chair/`; remade (P1_022, P1_041, P1_052, P1_069, P1_070) from the new `_c`. **✅ Done — all five remade and kept in `Shots/`** (same check, 2026-09-28). The earlier edit note (nudge +5 px, 99.6 %) is void.
 
 | P1_003a | — | **copy of P1_126** (kept `_b` reaction); use 0.0–1.5 s only. Four generated takes on `frame_cleopatra` had the host pushing into the bottom-left corner (in `Shots/_tests/_rejected/`). |
 

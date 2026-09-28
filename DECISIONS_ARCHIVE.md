@@ -1,5 +1,9 @@
 # Decisions archive — the evidence behind the rules
 
+> ⚠️ **Read order (2026-09-28):** the numbered sections §1–§11 below are the 2026-09-18 record, and several were later
+> superseded (the camera preset, the wides, the chain pre-lift, the duration figures). The section **"Relocated in the
+> skill cleanup — 2026-09-28"** at the end says what replaced each one. The skills state the current rules.
+
 **This is not a queue and nothing here is pending.** Everything in it has been written into the
 skills, `STUDIO_ASSETS.md`, `Fixed_Assets/VOICES.md`, `NEXT_STEPS.md` and
 `Episodes/Cleopatra/P1_kit.md`. It was held deliberately until the test programme closed, so the
@@ -597,3 +601,160 @@ hard-wired to `P1_kit.md` — all now take a part number, and Part 2+ renders ca
 episode's `card_data_p<N>.json`; (3) the duration model is now re-measured per guest. Found on the
 way: `junction_scan.py` had been **silently checking zero lines** since the inline-attribution change
 of 2026-09-21 — fixed, and it now fails if it scans fewer lines than there are talking rows.
+
+---
+
+# Relocated in the skill cleanup — 2026-09-28
+
+The skill files were rewritten to state each current rule once. What came out of them is recorded below — the
+superseded versions, the measurements that decided them, and the procedures of tests that have passed. **The verbatim
+pre-cleanup files are in `_archive/skills_pre_cleanup_2026-09-28/`**; this section is the readable index of what they
+held. Every skill now carries a *Tested and ruled out* list pointing here and to `Fixed_Assets/LESSONS.md`.
+
+## R1. The camera lock — every version, in order
+
+| when | wording / setting | result |
+|---|---|---|
+| Higgsfield era | *"The camera does not move. Framing, lens, lighting and background stay exactly as the start frame throughout."* | ignored — slow drift. Video models handle negation badly ("does not **move**"). |
+| 2026-09-18 (Test A, `P1_054`) | lock v1 + Kling's stationary preset, applied together | **PASS**, but confounded — two changes at once. |
+| 2026-09-24 (`P1_020`, first take) | full lock v1, **no preset** | camera moved → the preset was doing real work (L3). |
+| 2026-09-25 (`P1_058`, L18) | lock v2, no chip | held, ≤ 2 px. |
+| 2026-09-25 (CLI, L23, L27, L28) | v2 / end-only wording through the CLI | drift on 3 of 16; long Turbo clips about half the time (P1_018 39 px orbit). |
+| 2026-09-26 (L32, L33) | back to the website, chip on; v2 still drifted | v1 restored verbatim, with *"Only one person is in the frame."* (L19). |
+| **2026-09-27 (L51)** | **structure v3**, chip OFF | **0 px on ~15 clips incl. 13 s talking and reactions; lighting drift ~1.4 % vs ~1.8 %.** Current. |
+
+Lock v1, verbatim: *"The camera is stationary. Locked on a fixed tripod — zero pan, zero tilt, zero travel, zero zoom.
+Framing, lens, lighting and background hold exactly as the start frame for the whole clip. All movement in the shot
+belongs to the person; the camera contributes none."* Its last clause existed because a lock stated as pure absence of
+motion froze the performer too — the same failure as scoping a register constraint to movement.
+
+Lock v2, verbatim: opening *"Static camera shot. The camera is stationary on a tripod; the framing, lens, lighting and
+background stay exactly as in the start frame for the whole clip."*, closing *"Static camera shot."*, no camera-move word
+anywhere (third-party Kling guides said the same). L18's theory — naming pan/tilt/zoom invites them — **did not hold up
+with the chip on**; not to be re-opened without a measured A/B.
+
+**Paragraph leading space (2026-09-21, `P1_008_B`):** Kling stripped the blank line between paragraphs and fused
+sentences (*"…contributes none.The host, calm…"*); a single leading space made the movement paragraph land. Dropped for
+studio prompts with v3, which was tested without it.
+
+**Kling presets (2026-09-18):** they are literal text snippets (the typo *"front videw"* shows it). The stationary preset
+was allowed; everything under Shot type / Light and shadow / Frame / Atmosphere forbidden; custom presets dropped. With
+v3 no preset is used.
+
+## R2. The duration model — every version
+
+- **Previous platform:** ~2 words/s (*21 words at 10 s, 15 at 8 s, 14 at 7 s*); then **3.85 syl/s** measured (25 syl in
+  6.40 s, 27 in 7.11 s) → *speech = syllables ÷ 3.85 + ~1 s per break + ~0.5 s tail*, aim the floor + 0.5 s, and
+  **"never round up"** (slack became a mid-line pause: 27 syllables at 13 s → a 3.3 s pause; 25 syllables at 12 s →
+  1.8 s). The 34-syllable line (floor 11.3 s) failed at 10 s and compressed at 12 s.
+- **v2 (2026-09-21):** six Turbo clips (`P1_004/006/007/055/057`, `P1_008`): ~4.3 syl/s (4.1–5.4), lead 0.8 s seed /
+  0.3 s chained, **0.5 s per break**, 0.4 s tail, rounded up. The old figures over-padded every clip by 1–2 s.
+- **v3 (2026-09-24):** break 1.0 s — `P1_013` took 1.1 s at its break, `P1_020` 1.6 s and 1.0 s, and two clips ran speech
+  to the last frame.
+- **v4 (2026-09-25, L21, L24):** 1.3 s per break (the measured average of kept takes), +0.5 s on lines ≥ 9 s, never
+  rounded down — `P1_016` rounded 4.06 → 4 s ended 0.15 s after its word; `P1_015` (34 syl, 12 s) was cut off with pauses
+  of 1.45 / 1.6 s at 4.1 syl/s. Part 1 went 7,830 → 8,206 cr.
+
+## R3. The timing-cue and vendor-syntax A/Bs (2026-09-20/21)
+
+Kling's audio guide puts the delivery note *inside* the attribution and uses temporal markers (*"Immediately"*). Tested
+on `P1_008`, same seed and line, 11 s: A (inline note) onset 0.60 s, 7.15 s voiced at ~5.0 syl/s, pauses 1.1/0.6/1.2 s;
+B (+ *"He begins speaking immediately."*) onset 0.35 s, 6.65 s at ~5.4 syl/s, pauses 1.3/2.2 s. **Cue not adopted** — it
+gave the onset back as a longer pause and rushed the line. The inline note was kept, then replaced by the label form
+(T8, 2026-09-24).
+
+## R4. The host's direct-to-guest turn — the whole path
+
+1. 2026-09-19 plan: **start + end frames** on pose pairs (same body, only the eyeline differs) — `frame_host_direct` ↔
+   `frame_host` (settled back), `_direct_b` ↔ `_b` (leaning forward), `_direct_c` ↔ `_e` (hands in lap). Fix ladder:
+   end frame → chain → cut mid-turn → something between them.
+2. 2026-09-20 (`P1_004`): **Turbo has no end-frame slot**; the prompt alone produced the head turn (9.5–11.0 s, not
+   rushed), the chained join seamless in luma → chain became the default. Found because removing the establishing wide
+   exposed a join the wide had been hiding.
+3. 2026-09-26 (L34): Turbo's end eyeline was luck (right once, off to the left on the retake) → Standard + audio + end
+   frame on the guest-facing pose (12 cr/s).
+4. 2026-09-26 (L38): that snapped — line 1 ended, 2.6 s of silence, a ~0.5 s head snap with torso and hands, a hold, then
+   line 2. Turn wording rewritten (no pause, turn across the whole sentence, eyes arrive on the last word, hands still).
+5. 2026-09-27 (L39): a second Standard take failed too → back to Turbo, eyeline in frame terms, next clip chained.
+6. 2026-09-27: a mirrored start frame (`Shots/_tests/mirror/`) so Turbo's leftward habit would land right — dropped.
+7. **2026-09-27 (L40), current:** Turbo heads the right way but overshoots; nothing chains from the turn; a 3 s guest
+   reaction is cut in as the turn lands; the host returns on the built seed. `P1_003a` itself was finally cut from
+   `P1_126` after four failed takes (L43, L44).
+
+## R5. Chains and joins — measurements
+
+- **Luma loss per link** (Higgsfield, Kling 3.0): 79.62 → 78.81 → 77.50 → 75.76 (~1.5 % per link) — the origin of the
+  three-link cap and of the (never used) pre-lift plan.
+- **Colour range:** a correctly extracted frame read 14.66 saturation against the source's 14.72; a range-converted one
+  15.82, and the clip generated from it started at 15.84 — the generator reproduces its start image faithfully.
+- **2026-09-20:** `P1_004` → `P1_006` measured −0.4 % luma but **+7.1 % chroma**; the rule then said never use the
+  platform's extract button.
+- **2026-09-21, corrected:** every clip starts 3.3–4.0 % darker than its input (host −4.0 %, guest −3.3 %, `P1_056` →
+  `P1_057` −3.3 % with chroma −0.3 %). The −0.4 % was a confound (that frame came in brighter). **Decided: level joins in
+  the edit (`JOIN_GRADES.md`), not predict them;** Kling's own last-frame feature became the default (its only fault, a
+  uniform colour shift, is removed by the grade).
+- **2026-09-20 → 2026-09-26:** chains were made in two passes (seed rows, then extract every chain frame, then the chained
+  rows); since 2026-09-26 one sheet lists each chained clip under its source.
+- **2026-09-24 end-frame rule (`P1_086`):** start = end = seed on a listening reaction held the eyeline (face diff 4.1 vs
+  9.4 free), halved the small movement, and cut chained rows 40 → 29.
+
+## R6. Wides and two-shots — why none are generated
+
+- The generated two-shot put both figures a size too large against the chairs (from the seed frame; rerolling never
+  fixed it). The 4 s establishing wide was cut 2026-09-18 (32 cr a part). `WIDE_SILENT` (Standard, audio off) and
+  `WIDE_CREDITS` (Turbo, audio discarded, under a credit roll) were retired with it; the credit roll itself was dropped.
+- Three `frame_wide_<guest>` variants per guest, the mark baked into `frame_wide_<guest>_marked.png`, and an
+  empty-studio fixed outro (one 120-cr generation) were all proposed or built; the empty studio was rejected because it
+  says nothing about the two people.
+- **2026-09-28 (L59):** the per-guest marked wide also had the host in a different pose from his last line. The outro
+  wide is now built per part from three references.
+- **Structural:** speech-to-speech converts a clip to one voice, so a two-speaker clip can never carry heard dialogue.
+
+## R7. The Kling CLI — facts worth keeping (2026-09-25 → 27)
+
+`@klingai/cli-global` 0.2.0; login per session (OAuth). `kling-video-v3_0_turbo`: prompt, duration 3–15, 720p/1080p —
+**no audio toggle, no tail image**. `kling-video-v3_0` ("Standard"): 720p/1080p/4k, `enable_audio`, `prefer_multi_shots`,
+`tail_image`, elements — **dangerous defaults 4k, multi-shot on, audio off**. No camera parameter. Downloads carry a
+KlingAI watermark unless `urlWithoutWatermark` is used (L20). File host `s15-kling.klingai.com` was blocked from the
+cloud session (only `kling.ai` / `klingai.com` allowed). Credits match the website (70 cr for 3 s Turbo + 5 s Standard
+reaction). Rate limit: 2 in parallel, upload once, retry (L26). Set aside 2026-09-26 (L32) for lack of a camera lock;
+back 2026-09-27 once v3 needed none (L51, L52).
+
+## R8. Smaller settled items
+
+- **Prompt enhancer:** ON under Kling 3.0 (it once had a guest point at herself on *"me"*); absent on Turbo; `P1_054` came
+  back natural without it, so gesture paragraphs were not rewritten.
+- **Unverified claim** that lip-sync decouples after ~5 s: folded into T3 (2026-09-22 → 24); no drift seen in the long
+  beat-map takes; the control was dropped.
+- **The `says` attribution** (`The woman says, cool courtesy: "…"`) — lost to the label form in T8.
+- **T-test details:** T1 (`P1_013`, *"Medes"* read twice from a `Pronunciation:` paragraph; *"Meeds"* right); T3 (`P1_087`
+  → `P1_088`: 193 Hz both sides, luma −0.4 %, face diff 2.5, B 6–7 dB louder); T5 (`P1_044` → `P1_045` → `P1_046`: mouth
+  closed in ~0.4 s; reply opened with 3.2 s of silence); T6a (`P1_008` + `P1_009`, crops host x=150 / guest x=800); T6b
+  (`P1_085` + `P1_086` shared silence — empty).
+- **Thumbnail baseline (Cleopatra P1):** seed frames 2720×1536; a tight 16:9 crop lands ~1342×755; uncropped her head is
+  22 % of frame height (~45 px at desktop feed size, ~26 px mobile); cropped ~91 px. The crop is at the resolution floor,
+  the mic occupies the negative space, the expression is neutral by design — which is why the thumbnail portrait is a
+  separate generation (`THUMBNAIL_SYSTEM.md`).
+- **Forward-leaning guest pose:** attempted twice by prompt; both came back tighter with table and mic enlarged (26.5 and
+  23.4 against a set under 13.4).
+
+## R9. Series furniture — superseded specs
+
+- **The hook slot** was first 6.17 s (one loop of the theme plus its run-in) on black, with the card in front of the
+  opening; the card moved inside the file and the slot became 4.00–8.00 s (2026-09-22). The 2026-09-21 example line was
+  *"Egypt did not survive without me."* (`P1_057` 5.6–9.6 s, 1.5 s live hold).
+- **`BRAND_bumper_in`** began as a 5 s piece (sand falls 0.35–2.0 s, stops, reverses 2.35–3.1 s, lockup to 5.0 s; music
+  cut so the reversal landed at 2.35 s); it is now the intro inside `BRAND_opening`, reversal at 16.52 s.
+- **`BRAND_disclosure`** was specced as a 3 s black card with a sting; it is the first 4 s of `BRAND_opening`, on paper.
+- **Act breaks, as built:** generated at 4 s (Standard audio off, 32 cr each), last frame held to 5.000 s, paper
+  restored; the worn step was dropped after repeated failures. An earlier build cut out at 4.000 and let the next chime
+  land on the interview — wrong, the break must own both chimes.
+- **The outro test** (passed) ran on `frame_wide_cleopatra_marked.png`: charcoal still on Kling Image 3.0, then a 5 s
+  Standard transformation under lock v1. Judging order: do the figures hold (the pass/fail); does the change move inward
+  from the edges; does it land and stop; is the last frame a usable still. Fallbacks: an editor cross-dissolve if the
+  figures drift; one retry for a uniform flip; regenerate the still for an overshoot.
+- **Room tone** was first to be extracted from clips, then built from six takes crossfaded
+  (`acrossfade=d=3:c1=tri:c2=tri`); it is one seamless take (take 04, 1:48).
+- **Music:** six cues were specced; `MUSIC_Sting_Transition` (4 s) and `MUSIC_Bed_Disclaimer` (8 s) were cancelled;
+  `MUSIC_Outro_Bed` went 90 → 60 → 35 s. Spend ~4,300 credits against ~9,800 for the original spec. The prompts are in
+  `Fixed_Assets/Audio/AUDIO_PROMPTS.md`.

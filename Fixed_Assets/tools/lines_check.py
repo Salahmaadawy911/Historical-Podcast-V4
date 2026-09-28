@@ -49,15 +49,26 @@ def tail_warn(lab, line):
     if ph and len(ph) >= 2 and ph[-1] in J.STOPS and ph[-2] in J.STOPS:
         print(f'{lab}  TAIL "{ws[-1]}" ends the line on a stop cluster — expect a strained last word   | {line[:60]}')
 
+SERIES_NAME = 'History Answers Back'   # the show's own name, said in every welcome (2026-09-28) — not a guest's name
 COMMON_CAPS = {'Death','East','West','North','South','Gulf','Kings','King','Library','March','Moon','Partners','Queen','Red','Sea','Senate','Sun','God','Gods','Mother','Father','Lord','Lady','Sir','Madam'}
 def main(path, require_notes):
     s = open(path, encoding='utf-8').read()
     table = {}
-    if '### Pronunciation' in s:
-        sec = s[s.index('### Pronunciation'):]
+    # L48 (2026-09-27): the OUTLINE's Pronunciation table is the only source of respellings. A kit is checked against
+    # its own table AND the guest's OUTLINE.md table, and a `write: X` respelling (which the builder puts inside the
+    # quote) counts as covered — the gate used to flag the kit's own respellings (Seezer, Antonee) as unlisted names.
+    srcs = [s]
+    _ol = os.path.join(os.path.dirname(os.path.abspath(path)), 'OUTLINE.md')
+    if os.path.abspath(path) != _ol and os.path.exists(_ol): srcs.append(open(_ol, encoding='utf-8').read())
+    for src in srcs:
+        if '### Pronunciation' not in src: continue
+        sec = src[src.index('### Pronunciation'):]
         sec = sec[:sec.find('\n## ', 1) if '\n## ' in sec[1:] else None]
-        for m in re.finditer(r'^\|\s*([A-Z][\w’\']+)\s*\|\s*([^|]+?)\s*\|', sec, re.M):
-            if m.group(1) != 'Word': table[m.group(1).lower()] = m.group(2)
+        for m in re.finditer(r'^\|\s*([A-Z][\w’\']+)\s*\|\s*([^|]+?)\s*\|([^\n]*)', sec, re.M):
+            if m.group(1) == 'Word': continue
+            table[m.group(1).lower()] = m.group(2)
+            w_ = re.search(r'write:\s*([^|·\s]+)', m.group(3))
+            if w_: table.setdefault(w_.group(1).lower(), 'respelling of ' + m.group(1))
     bad = 0; scanned = 0; talk = 0; need = {}
     import outline_lines as O
     rows = [(lab, f'"{line}"\n', line) for lab, spk, note, line in O.spoken(s)] if O.is_outline(s) else None
@@ -88,7 +99,7 @@ def main(path, require_notes):
                 print(f'{lab}  OPEN1 "{_f.group(1)}." — the line opens on a lone word; give it context ("{_f.group(1)}, not …") or a Pronunciation row (write:/plain)   | {line[:60]}')
             # NAME (L53, 2026-09-27, Salah): EVERY name and place in a spoken line has a Pronunciation row — its own
             # row for a possessive/plural ("Antony's" was said "Antoy's", P1_106). Common capitalised words are exempt.
-            for _n in re.findall(r"(?<=[a-z,;:—–-] )([A-Z][a-z]+(?:['’]s)?)", line):
+            for _n in re.findall(r"(?<=[a-z,;:—–-] )([A-Z][a-z]+(?:['’]s)?)", line.replace(SERIES_NAME, '')):
                 if _n.lower() not in table and _n not in COMMON_CAPS:
                     print(f'{lab}  NAME "{_n}" has no Pronunciation row — add one (write: <respelling> or plain)   | {line[:60]}'); bad += 1
             if _syl.dur2(line)[1] > 15:   # added 2026-09-23: warn only — Mode 3 marks a SPLIT, or Mode 4 splits it

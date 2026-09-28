@@ -3,8 +3,10 @@
 > 📋 **Discussion queue — `DISCUSSION_QUEUE.md`: all 7 points settled (2026-09-23).** ⏰ **Next: the two reminders at the end of the queue** — plan all test takes together (T1–T6), then the Part 1 script decisions (incl. rewriting Part 1's §9 to Mode 4 §15 before its publish sheet is built).
 > 🔁 **DECIDED 2026-09-23: rerun Cleopatra from Mode 1** — see **B5** below. The process is mapped in the artifact **The Running Order** (https://claude.ai/artifact/L98t6WjsEfE9G2XuFiHVP7) — **republish it whenever the process changes** (Salah: *"keep it updated always so i can follow up"*).
 
-**Where we are (2026-09-23): the discussion queue is closed and the process is settled; the current step is B5 —
-rerun Cleopatra from Mode 1. Modes 1–3 DONE and approved 2026-09-23; Mode 4 Part 1 DONE 2026-09-23 (`P1_kit.md`, all gates pass, renders in the folder). Next is the Part 1 test batch (Mode 4 §0c): Salah generates the test clips listed in the kit's §4b, then a new chat judges them.**
+**Where we are (2026-09-28): Cleopatra Part 1 — every clip is made** (`Shots/`, outro included). **Skill cleanup done
+2026-09-28** (A11). **Next: the ElevenLabs voice pass** (`voice_folders.py`; `P1_028` and any remade `_i` clips still to
+convert, and the `P1_004` remake if not yet made), **then the edit — Mode 6 in a new chat**, first step `batch_check.py`, then assembly.
+The B5 log below is the history of how Part 1 got here.
 
 Project-wide work first — everything here is reused by every episode, so a mistake
 compounds. Guest-specific work is Part B and waits.
@@ -14,8 +16,9 @@ compounds. Guest-specific work is Part B and waits.
 # PART A — PROJECT-WIDE
 
 ## A1. Generation settings — LOCKED
-Registered in `STUDIO_ASSETS.md`: Higgsfield, Kling 3.0 Pro image-to-video, 1080p,
-**prompt enhancer ON**, Seedream 5.0 for stills. Everything else at platform default.
+Registered in `STUDIO_ASSETS.md` (current): **kling.ai**, Kling 3.0 Turbo / Standard by shot type, 1080p (720p for
+audio-only talking clips), **camera chip OFF** with prompt structure v3, Seedream 5.0 for studio frames, Kling image
+3.0 for b-roll stills. (This item once read "Higgsfield, prompt enhancer ON, Seedream for stills" — all superseded.)
 - [ ] Record any exposed creativity/cfg value the first time it is seen
 
 ## A2. Brand — COMPLETE
@@ -94,6 +97,8 @@ real part replaces the guess with a number.
 Platform is **kling.ai**. Rates: Turbo 10 cr/s; Standard 3.0 12 cr/s with audio, **8 cr/s with audio off**.
 
 **All gating tests passed. Nothing in the pipeline is blocked on a test.**
+*(This table is the 2026-09-18 record. Some settings in it were later replaced — the preset + lock (now prompt structure
+v3, chip off, L51) and the wide (removed). Current rules: the skills; what replaced what: `DECISIONS_ARCHIVE.md` R1–R9.)*
 
 | Test | Result |
 |---|---|
@@ -218,9 +223,11 @@ zero-credit way to add beating if a cut ever wants it.
 
 ## A11. Cleanup and skill optimisation
 
-**File cleanup: ready to run.** `MOVE_TO_DELETE.command` in the project root moves ~95 MB into
-`_to_delete/` — nothing is erased. `CLEANUP.md` lists what and why, checked against every `.md` in
-the project. **Skill compression is still deferred until Part 1 is produced** — reasons below.
+✅ **Skill cleanup DONE 2026-09-28** (Part 1's clips all made, so the load-bearing rules were known). Every skill now
+states each current rule once, with its reason and lesson number, and opens with a **"Tested and ruled out"** list so a
+fresh chat cannot bring back something that already failed. History moved to `DECISIONS_ARCHIVE.md` ("Relocated in the
+skill cleanup"); `LESSONS.md` gained a status column; the pre-cleanup files are kept verbatim in
+`_archive/skills_pre_cleanup_2026-09-28/`. The reasoning below is the brief the pass followed.
 
 🔴 **A rule that came out of damaging a file on 2026-09-18: stage the live file and check its size
 against the project listing before editing it.** `skill_mode2_cast.md` was edited from a stale
@@ -480,22 +487,24 @@ is patched into the old kit any more — the skills rebuild the part, and any ga
 - ~~`MOVE_TO_DELETE.command` not yet run.~~ Its targets are already gone; the script and `CLEANUP.md` were moved to `_archive/` on 2026-09-23.
 - After confirming `DECISIONS_ARCHIVE.md` is complete, remove the old `_PENDING_CHANGES.md` by hand.
 - ~~**Before Part 2 Mode 3:** `PITCH.md` and `OUTLINE.md` do not exist yet.~~ Covered by the B5 rerun.
-- Skill compression (A11) waits until Part 1 is produced — relocate prose to
-  `DECISIONS_ARCHIVE.md`, never delete.
+- ~~Skill compression (A11) waits until Part 1 is produced~~ — done 2026-09-28 (A11).
 - Working method: one mode per chat inside the project; the `history-answers-back` skill is saved.
   Before editing any file: stage it fresh and check its size against the device listing.
 
 ---
 
 # SETTLED — do not revisit
-- Combined test passed: `Episodes/Cleopatra/tests/TEST_COMBINED_v3.mp4`
-- Articulation rate 3.85 syl/s; duration = syllables/3.85 + ~1s per sentence break + ~0.5s tail, then about a second over
+*(Corrected in the 2026-09-28 cleanup — four lines here had gone stale: the 3.85 syl/s duration model, chain-frame
+pre-compensation, the voice pass as a fallback, and the −50 dB room tone. The current versions are below.)*
+- Combined test passed (the test clips were removed in the 2026-09-18 file cleanup; the findings are in the skills)
+- Duration model v4 (`syl.py`): lead + syllables ÷ 4.3 + 1.3 s per break + 0.4 s tail (+0.5 s on lines ≥ 9 s), rounded up, re-measured per guest — Mode 4 §2
 - Register stated on every speaking shot; pace never stated — duration is the pace control
-- Phonetic junctions: word-final stop against a stressed vowel, and /pt/ /kt/ /st/ clusters, break lip-sync
-- Chain frames extracted without colour-range conversion, pre-compensated for the ~1.1% per-link luma loss, max three links
-- Voice: specific prose descriptions with no pace language, accent colouring optional and light; the voice-change pass is the fallback where drift appears, not a default
-- Room tone bed at −50 dB from generated silence, mirrored into a seamless loop
-- Host pose library complete and permanent — nine frames, registered in `STUDIO_ASSETS.md`
+- Phonetic junctions: word-final stop against a stressed vowel break lip-sync (`junction_scan.py`, hard rule); no line ends on a stop cluster
+- Chain frames: Kling's last-frame feature (or `ffmpeg -sseof`, no range conversion, no lift); joins levelled in the edit from `JOIN_GRADES.md`; max three links
+- Voice: the ElevenLabs speech-to-speech pass runs on every talking clip (not a fallback); the accent lives in the Kling `Voice:` line; no pace language in it
+- Room tone: `ROOMTONE_studio.wav`, one generated seamless take, ~−60 dBFS RMS under the whole part
+- Host pose library: eleven frames (eight facing the guest, three direct), registered in `STUDIO_ASSETS.md` and `tools/poses.py`
+- Prompt structure v3, camera chip off (L51)
 
 - 🔁 **B-roll stills → Kling image generation (2026-09-26, Salah, L37).** The passing b-roll start-frame test was run on Kling image gen, so the round sheet, builder, Mode 4 and STUDIO_ASSETS now say Kling for b-roll stills; Seedream stays for studio frames and their edits.
 - ✅ **frame_host_direct_b regenerated (Seedream edit of frame_host_b) and installed 2026-09-26** — vs frame_host_b: shift 0, scale 0, luma −1.35 %, room 2.7 → PASS (old one: scale +4). Old file in `Start_Frames/_replaced_2026-09-26/`. P1_003 end-frame pair is now clean.

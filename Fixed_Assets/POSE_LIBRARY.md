@@ -1,12 +1,21 @@
 # POSE LIBRARY — Host, permanent
 
-Generated once, reused for the life of the series. Never regenerated for a later
-episode, never generated mid-production to fit a line.
+Permanent for the life of the series, never generated mid-production to fit a line. A frame is
+**replaced only when a check fails** — in place, same file name, the old one moved to
+`Start_Frames/_replaced_<date>/`.
 
-Structure is the confirmed working two-input prompt used for guest seed frames
-(see `skill_mode2_cast.md`): `host_base.png` supplies identity and wardrobe,
-`cam1_host.png` supplies the room and camera. Only the PLACEMENT paragraph changes
-between variants — everything else is byte-identical.
+🔴 **How host frames are made now: by EDITING a set frame, not from this template (L36, 2026-09-26).**
+Seedream image-to-image with the set's frame as the only input — *"Keep this photograph exactly as it is — same room,
+framing, lens, lighting, grade, grain and the same person … Change only <the arms / the head and eyes>. Nothing else
+changes. Fingers not interlaced."* — then `frame_set_check.py Start_Frames/Host` (room + FURNITURE via
+`landmarks.json`) and an eye check side by side (Mode 2). Built this way so far: `frame_host_direct` (from
+`frame_host`), `frame_host_direct_b` (from `frame_host_b`), `frame_host_direct_c` (from `frame_host_e`), `frame_host_h`
+(from `frame_host`), `frame_host_i` (from `frame_host_b`). The template below is how the **original** set was generated
+— kept as the record, and for rebuilding the reference `frame_host` if it were ever lost.
+
+The original structure is the two-input prompt used for guest reference frames (see `skill_mode2_cast.md`):
+`host_base.png` supplies identity and wardrobe, `cam1_host.png` supplies the room and camera. Only the PLACEMENT
+paragraph changes between variants — everything else is byte-identical.
 
 Substitute the platform's real asset ids for `@host_base` (`host_base.png`) and
 `@cam1_host` (`cam1_host.png`). Never leave the placeholders in.
@@ -44,6 +53,9 @@ unchanged:
 - **`frame_host_d`** — one elbow on the armrest at the right of the frame, that hand raised so his knuckles rest lightly against his jaw, the other hand resting on his thigh.
 - **`frame_host_e`** — forearms off the armrests, both hands loosely clasped in his lap, shoulders square, settled back into the chair.
 - **`frame_host_f`** — one arm draped along the top of the chair back at the left of the frame, the other hand flat on his thigh, torso open a little further toward the right of the frame. ⚠️ *As generated, the frame-left arm is draped over the front of the armrest, not the chair back — prompts follow the image (`tools/poses.py`).*
+- **`frame_host_h`** *(edit of `frame_host`, 2026-09-27)* — settled back, one hand over the front of the armrest, the other open, palm up, by his thigh.
+- **`frame_host_i`** *(edit of `frame_host_b`, 2026-09-27)* — leaning well forward, forearms on his thighs, both hands apart and open between his knees.
+- *(`frame_host_g` was planned and dropped — `frame_host_c` is already ankle-on-knee.)*
 
 ## PLACEMENT variants — `frame_host_direct` set
 
@@ -64,7 +76,8 @@ variant here gets its entry there in the same sitting (Mode 4 §5).
 
 ## Acceptance check
 
-Open each finished variant next to `cam1_host.png` and `frame_host.png` before registering it:
+`frame_set_check.py` first (room shift ≤ 2 px, zoom ≤ 3 px, brightness ≤ 2 %, colour ≤ 3, FURNITURE), then open each
+finished variant next to `cam1_host.png` and `frame_host.png`:
 - the armchair sits in the same place in the frame, at the same size
 - the microphone, its stand, and the second stand have not moved or changed scale
 - the floor lamp, the charcoal wall and the slat wall are unchanged
