@@ -17,9 +17,14 @@
 > 📚 **How this file is kept (cleanup 2026-09-28).** Current rules only, each once, with its reason. History and
 > superseded versions: `DECISIONS_ARCHIVE.md`, `Fixed_Assets/LESSONS.md`, `_archive/skills_pre_cleanup_2026-09-28/`.
 
-**Status: partly specified.** Assembly, the audio rules, the cutting grammar, the hook render, the cards, source
-attribution and the publish sheet are settled; timeline mechanics and export settings are written against Part 1's
-first real edit (decided 2026-09-23), not guessed before it.
+**Status: partly specified.** Assembly (now built by script — §3, Cleopatra Part 1, 2026-09-28), the audio rules, the
+cutting grammar, the hook render, the cards, source attribution and the publish sheet are settled; export settings for
+the masters are written when Part 1's cut is signed off.
+
+**Tools the edit needs:** `ffmpeg`/`ffprobe`, Python with `numpy` and `pillow`, and `pocketsphinx` (forced alignment —
+its English model ships inside the pip package; Whisper's model hosts are blocked in the cloud sessions). A cloud
+container may have none of them: install first (`apt-get install -y ffmpeg`, `pip install numpy pillow pocketsphinx`).
+**A check that cannot run must fail loudly, never print ✓** (L60).
 
 ## Scope and order
 
@@ -67,6 +72,12 @@ It becomes the edit's to-do list. Claude looks at frames only where a flag says 
 - **SMALL-DRIFT (4–8 px)** — Resolve's stabiliser (camera lock mode) on that clip only; still visible → retake (L31).
 - **CAMERA-MOVED / CORNER** — retake from the round sheet (v3 prompt, L51) before the cut is locked (`cam_check.py`, L19).
 - **NO-AUDIO** on a talking row — retake.
+- **CAM-CHECK-FAILED** — the camera measurement did not run (a missing library); fix the environment and re-run. B-roll
+  and the outro are listed as *not checked* — they move by design (L60).
+- **TIGHT** says which case: *ends in silence* (the word finished — nothing to do) or *STILL SOUNDING at the last
+  frame* (listen; clipped → retake one second longer).
+- Before the chain joins: `chain_frames.py Episodes/<Guest> <n>` → `Shots/_measure/JOIN_GRADES.md`. In a fresh clone
+  it also re-extracts `Shots/start_frames/` (not in git) — those are generation inputs, delete the re-made copies.
 
 ## 2. The voice pass — folders
 
@@ -85,7 +96,25 @@ question, cut back on the first word of the answer"* — never a timecode, becau
 until the clip exists. Filenames are the link: a clip is `Shots/<shot_id>.mp4`; a renamed file is unplaceable.
 Assemble act by act so problems surface early.
 
-1. **Probe every clip:** duration, speech in/out points (`silencedetect` at −38 dB), noise floor. Never estimate.
+**The tools (2026-09-28, L62).** Per part, like the kit builder:
+- `_edit/prep_p<n>.py` — the voice-passed MP3s → head-trimmed, −19 LUFS WAVs (Audio rules 1–2), and **word timings for
+  every talking take** by forced alignment of the prompt's spoken words (`pocketsphinx`; the respellings and
+  `names.dict` are added to its dictionary) → `_edit/words_p<n>.json`. A take whose last words will not align is
+  reported (clipped or odd — listen).
+- `_edit/assemble_p<n>.py` — the part's sequence, one line per kit placement, every time taken from those words
+  (`L.W('P1_018', 'why')`), never typed. `--plan` resolves the timeline and writes `_edit/P<n>_CUTLIST.md` with its
+  flags: freezes, chained joins moved off their exact frame, a two-up past its take, **a context card over the other
+  face, a two-up or a plate**. Without `--plan` it renders `P<n>_ASSEMBLY_review.mp4` (960×540, small enough for git)
+  or, with `--full`, the 1080p cut on the Mac. It covers picture, dialogue, room tone, b-roll ambience, act breaks and
+  the outro; text, cards, the hook render and the score are the edit's (§5–8).
+- What the script does by default: gaps are measured first word to last word; dead air over 1.2 s inside a take is cut
+  to 0.55 s, and a trim seen on screen gets a `PUNCH` (alternating, so never two in a row); speaker changes J-cut
+  3–7 frames, varied; when the outgoing take runs out of frames the cut moves earlier onto the incoming lead-in; a
+  chained clip lands on its exact join frame when the gap allows (0.45–1.0 s), otherwise it cuts the listening
+  reaction early (flagged); a reaction chained off a talking take continues that take's picture automatically.
+
+1. **Probe every clip:** duration, speech in/out points (forced alignment, `silencedetect` as the fallback), noise
+   floor. Never estimate.
 2. **Cut in silence, never on a word.** Take a cut a beat *before* a covered line begins, so the reaction is established
    before the words arrive.
 3. **Close the gaps:** ~0.3 s between sentences of one utterance, more at a genuine turn; trim silent lead-ins (a clip
