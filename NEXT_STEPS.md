@@ -16,6 +16,9 @@ pull-quotes, subscribe, `[D]` credits, drones, subtitles; two masters; `P1_capti
 `P1_EDIT_NOTES.md`, `publish_sheet.py`. Thumbnail rebuild and the playlist `TODO` still block publishing.
 **Cloud sessions need** `apt-get install -y ffmpeg` and `pip install numpy pillow pocketsphinx` first (none are
 preinstalled — see Mode 6 *Tools*); a SessionStart hook would do it automatically.
+**Where we are (2026-09-28): Cleopatra Part 1 — every clip is made** (`Shots/`, outro included) **and every talking clip
+is voice-changed** (`Voice/P1/done/`, 93 of 93). **Skill cleanup done 2026-09-28** (A11). **Next: the edit — Mode 6 in a
+new chat**, first step `batch_check.py`, then assembly.
 The B5 log below is the history of how Part 1 got here.
 
 Project-wide work first — everything here is reused by every episode, so a mistake
