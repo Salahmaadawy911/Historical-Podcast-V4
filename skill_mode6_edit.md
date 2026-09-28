@@ -107,8 +107,10 @@ Assemble act by act so problems surface early.
   face, a two-up or a plate**. Without `--plan` it renders `P<n>_ASSEMBLY_review.mp4` (960×540, small enough for git)
   or, with `--full`, the 1080p cut on the Mac. It covers picture, dialogue, room tone, b-roll ambience, act breaks and
   the outro; text, cards, the hook render and the score are the edit's (§5–8).
-- What the script does by default: gaps are measured first word to last word; dead air over 1.2 s inside a take is cut
-  to 0.55 s, and a trim seen on screen gets a `PUNCH` (alternating, so never two in a row); speaker changes J-cut
+- What the script does by default: gaps are measured first word to last word. **On picture, only pauses over 2 s are
+  trimmed** (to 0.8 s, each hidden by a `PUNCH`, alternating so never two in a row); **off picture** (a voice under
+  the other face or b-roll) pauses over 1.2 s go to 0.55 s. Kling's ordinary sentence pause is ~1.3 s (L24): trimming
+  every one of those punched almost every take (L63). Direct address is never trimmed or punched; speaker changes J-cut
   3–7 frames, varied; when the outgoing take runs out of frames the cut moves earlier onto the incoming lead-in; a
   chained clip lands on its exact join frame when the gap allows (0.45–1.0 s), otherwise it cuts the listening
   reaction early (flagged); a reaction chained off a talking take continues that take's picture automatically.

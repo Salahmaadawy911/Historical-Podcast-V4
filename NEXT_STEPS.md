@@ -4,12 +4,13 @@
 > 🔁 **DECIDED 2026-09-23: rerun Cleopatra from Mode 1** — see **B5** below. The process is mapped in the artifact **The Running Order** (https://claude.ai/artifact/L98t6WjsEfE9G2XuFiHVP7) — **republish it whenever the process changes** (Salah: *"keep it updated always so i can follow up"*).
 
 **Where we are (2026-09-28, Mode 6 chat 1): Cleopatra Part 1 — voice pass done (93/93), opening check run, the
-assembly is cut** → `Episodes/Cleopatra/P1_ASSEMBLY_review.mp4` (9:09, 540p review proxy; `--full` rebuilds 1080p on
+assembly is cut** → `Episodes/Cleopatra/P1_ASSEMBLY_review.mp4` (10:01, 540p review proxy; `--full` rebuilds 1080p on
 the Mac), cut list `_edit/P1_CUTLIST.md`. **Waiting on Salah: watch it and sign off the cut** (or list changes — they go
 into `_edit/assemble_p1.py`, one line per placement, and the cut is re-rendered).
 **Open before the cut is locked:** (1) **retake `P1_095`** — camera moved 27 px (round sheet row as is, v3); (2) listen
 to the end of **`P1_090`** (*"kingdoms"* still sounding at the last frame) and **`P1_055`** (*"his triumph"* would not
-align); `P1_128` is borderline. (3) Card 07 needs to leave ~0.25 s early (it would touch the act break).
+align); `P1_128` is borderline. (3) Card 07 needs to leave ~0.25 s early (it would touch the act break). (4) `P1_003` holds a 2.6 s still pause before
+the turn — untrimmed (direct address); retime the turn per L38 in the edit.
 **Then the rest of Mode 6 (same or next chat):** re-pick the hook from the cut → `hook_build.py`; cards, lower thirds,
 pull-quotes, subscribe, `[D]` credits, drones, subtitles; two masters; `P1_captions.srt`, `P1_TIMECODES.txt`,
 `P1_EDIT_NOTES.md`, `publish_sheet.py`. Thumbnail rebuild and the playlist `TODO` still block publishing.

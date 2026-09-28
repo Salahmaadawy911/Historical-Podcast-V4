@@ -20,7 +20,9 @@ FA = 'Fixed_Assets'; FPS = 24; SR = 44100
 FULL = '--full' in sys.argv; PLAN = '--plan' in sys.argv
 OW, OH = (1920, 1080) if FULL else (960, 540)
 WORDS = json.load(open(f'{ED}/words_p1.json'))
-MAXGAP, NEWGAP = 1.2, 0.55          # dead air over ~1.2 s inside a take is trimmed to a breath (Mode 6 §3.3)
+MAXGAP, NEWGAP = 1.2, 0.55          # dead air over ~1.2 s is trimmed — where the trim cannot be seen (voice off picture)
+SEEN_GAP, SEEN_NEW = 2.0, 0.8       # on picture only pauses > 2 s (batch_check PAUSE) are trimmed, each hidden by a PUNCH:
+                                    # Kling's normal sentence pause is ~1.3 s (L24) — trimming those punched every take
 PRE, POST = 0.06, 0.15              # audio handles around the first / last word of a piece
 JCUTS = [0.21, 0.17, 0.25, 0.13, 0.29, 0.19]   # incoming picture trails its voice by 3-7 frames, varied (§4)
 PUNCH = 1.12                        # <= 15 % (§4)
@@ -98,7 +100,9 @@ class TL:
         return t
 
     def say(s, c, gap=0.4, at=None, after=None, gmin=0.35, gmax=1.0, pic='self', pic_t=None, a=None, b=None,
-            gain=0.0, punch=False, maxgap=MAXGAP, newgap=NEWGAP, hard_out=False, two=None, hx=None, j=None):
+            gain=0.0, punch=False, maxgap=None, newgap=None, hard_out=False, two=None, hx=None, j=None):
+        if maxgap is None: maxgap = MAXGAP if pic is None else SEEN_GAP
+        if newgap is None: newgap = NEWGAP if pic is None else SEEN_NEW
         ps = s.pieces(c, a, b, maxgap)
         if at is not None: start = at
         elif after is not None:          # starts on the last frame of `after`: its source 0 sits at END[after]
@@ -170,8 +174,9 @@ def build():
     L = TL()
     # ---------------------------------------------------------------- Opening (hook slot stays the fixed file's)
     L.brand(OPEN, dur(OPEN))
-    L.say('P1_002', gap=0.3, pic_t=L.block_start)                       # hard cut in on the first strike
-    L.say('P1_003', after='P1_002', gmin=0.45, gmax=1.0)                  # SPLIT seam: plain cut on the pause
+    L.say('P1_002', gap=0.3, pic_t=L.block_start, maxgap=99)            # hard cut in on the first strike; direct
+    L.say('P1_003', after='P1_002', gmin=0.45, gmax=1.0, maxgap=99)       # address is never punched or trimmed
+    flag('P1_003: 2.6 s still pause before the turn, untrimmed (direct address, no punch) — retime the turn in the edit (L38)')
     me = L.We('P1_003', 'me')
     L.cover('P1_003a', me + 0.04)                                         # cut to her as the turn lands
     L.say('P1_004', at=me + 1.5 - 0.2, pic_t=me + 1.5)                    # ~1.5 s of her face, then him from the seed
@@ -397,7 +402,9 @@ def pose_side(c):
 ENC = ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '14' if FULL else '16', '-pix_fmt', 'yuv420p', '-an']
 
 def render_run(k, r, tmp):
-    out = f'{tmp}/r{k:04d}.mp4'
+    import hashlib   # cache by content, so a re-plan re-renders only the runs that changed
+    key = hashlib.sha1(json.dumps([r['x'], r['i0'], r['n'], r['freeze'], OW], default=str).encode()).hexdigest()[:16]
+    out = f'{tmp}/r_{key}.mp4'
     if os.path.exists(out): return out
     x = r['x']; n = r['n']
     if x[0] == 'v':
