@@ -1,0 +1,21 @@
+{
+ "_note": "Furniture edges checked by frame_set_check.py (L41). Each window [x0,x1,y0,y1] at 1920x1080 holds one horizontal edge of the chair, picked on the reference frame. A pose may hide one; two or more moving >12 px = FURNITURE. A pose whose arms cover both armrests (frame_cleopatra_i) flags falsely \u2014 confirm the chair back by eye.",
+ "chair back top, right of her shoulder": [
+  1580,
+  1650,
+  300,
+  500
+ ],
+ "right armrest top": [
+  1740,
+  1800,
+  450,
+  650
+ ],
+ "left armrest top": [
+  840,
+  960,
+  430,
+  600
+ ]
+}

@@ -1,0 +1,138 @@
+wrote /sessions/rcw-01jumq2ochcjp6qmx7a9b8cq/mnt/Historical Podcast V4/Episodes/Cleopatra/P1_kit.md
+talking 93 clips 618s 6180 cr | reactions 30 137s 1096 cr | broll 7 47s | total ~7810 cr
+on-picture spine ≈ 573 s generated talking; chained rows 29
+  P1_001 OPEN  opening
+  P1_002 N1a   H NARRA 13s need 12.4 frame_host_direct_b              <-- over 12s
+  P1_003 N1b   H NARRA  7s need  6.1 ('chain', 'N1a')                
+  P1_004 N2    H INTER  7s need  6.4 ('chain', 'N1b')                
+  P1_005 W1    G REACT  5s          frame_cleopatra_b               
+  P1_006 G1    G INTER  8s need  7.4 frame_cleopatra_b               
+  P1_007 A1    H INTER  8s need  7.2 frame_host_c                    
+  P1_008 A2    G INTER  6s need  5.2 frame_cleopatra_e               
+  P1_009 A2r   H REACT  7s          frame_host_e                    
+  P1_010 LA3   G REACT  8s          ('chain', 'A2')                 
+  P1_011 A3    H INTER  5s need  4.5 frame_host                      
+  P1_012 A4    G INTER 12s need 11.1 ('chain', 'LA3')                
+  P1_013 A5    H INTER 10s need  9.2 frame_host_d                    
+  P1_014 LA5   G REACT  4s          frame_cleopatra_b               
+  P1_015 A6    G INTER 12s need 11.1 frame_cleopatra_b               
+  P1_016 A7    H INTER  4s need  3.8 frame_host                      
+  P1_017 A8    G INTER 10s need  9.7 frame_cleopatra                 
+  P1_018 A9    H INTER  9s need  8.3 frame_host_b                    
+  P1_019 LA9   G REACT  3s          frame_cleopatra_e               
+  P1_020 A10   G INTER 10s need  9.9 frame_cleopatra_e               
+  P1_021 A11   H INTER  3s need  1.9 frame_host_c                     AUTO
+  P1_022 A12   G INTER 11s need 10.5 frame_cleopatra_c               
+  P1_023 A13   H INTER  3s need  1.7 frame_host_f                    
+  P1_024 LA14  G REACT  4s          ('chain', 'A12')                
+  P1_025 A14   H INTER  4s need  3.3 frame_host_d                     AUTO
+  P1_026 A15   G INTER 12s need 11.1 ('chain', 'LA14')               
+  P1_027 A16   H INTER  3s need  2.6 frame_host_e                    
+  P1_028 A17   G INTER 12s need 11.3 frame_cleopatra_d               
+  P1_029 A18   H INTER  5s need  4.5 frame_host_d                    
+  P1_030 A19   G INTER 12s need 11.6 frame_cleopatra_e               
+  P1_031 A20   broll
+  P1_032 A21   H INTER  3s need  1.9 frame_host                      
+  P1_033 A22   G INTER 12s need 11.9 frame_cleopatra_b               
+  P1_034 A22r  H REACT  5s          frame_host_b                    
+  P1_035 LA23  G REACT  5s          ('chain', 'A22')                
+  P1_036 A23   H INTER  7s need  6.8 frame_host_e                    
+  P1_037 A24   G INTER  3s need  1.4 frame_cleopatra_d               
+  P1_038 LA25  G REACT  4s          ('chain', 'A24')                
+  P1_039 A25   H INTER  3s need  2.6 frame_host_c                     AUTO
+  P1_040 BRK1  actbreak
+  P1_041 B1    G INTER  7s need  6.9 frame_cleopatra_c               
+  P1_042 B2    H INTER  3s need  2.4 frame_host_c                    
+  P1_043 B3    G INTER  5s need  4.2 frame_cleopatra_e               
+  P1_044 B4    H INTER  4s need  3.8 frame_host_f                    
+  P1_045 B5    H REACT  3s          ('chaincut', 'B4', 'Caesar')    
+  P1_046 B6    G INTER 10s need  9.8 frame_cleopatra                 
+  P1_047 LB7   G REACT  3s          ('chain', 'B6')                 
+  P1_048 B7    H INTER  3s need  2.4 frame_host_d                    
+  P1_049 B8    G INTER 11s need 10.9 ('chain', 'LB7')                
+  P1_050 B9    broll
+  P1_051 B10   H INTER  7s need  6.2 frame_host_e                    
+  P1_052 B11   G INTER  8s need  7.1 frame_cleopatra_c               
+  P1_053 LB12  G REACT  4s          ('chain', 'B11')                
+  P1_054 B12   H INTER  4s need  3.6 frame_host                      
+  P1_055 B13   G INTER  8s need  7.5 ('chain', 'LB12')               
+  P1_056 B14   broll
+  P1_057 B15   H INTER  3s need  2.8 frame_host_d                    
+  P1_058 B16   G INTER  4s need  3.8 frame_cleopatra_e               
+  P1_059 B17   H INTER  3s need  1.9 frame_host_c                    
+  P1_060 B16r  G REACT  4s          ('chain', 'B16')                
+  P1_061 B18   H INTER  3s need  1.9 frame_host_b                    
+  P1_062 B19   G INTER  4s need  3.8 ('chain', 'B16r')               
+  P1_063 B19r  H REACT  6s          frame_host                      
+  P1_064 B20   H INTER  3s need  2.6 frame_host                      
+  P1_065 B21   G INTER  9s need  9.0 frame_cleopatra_b               
+  P1_066 B22   H INTER  3s need  2.8 frame_host_c                    
+  P1_067 B23   G INTER 11s need 10.6 frame_cleopatra                 
+  P1_068 B24   H INTER  6s need  5.9 frame_host_b                    
+  P1_069 LB24  G REACT  3s          frame_cleopatra_c                AUTO
+  P1_070 B25   G INTER  6s need  5.9 frame_cleopatra_c               
+  P1_071 C1    H INTER  5s need  5.0 frame_host_d                     AUTO
+  P1_072 C1r   H REACT  3s          ('chain', 'C1')                 
+  P1_073 C2    G INTER  7s need  6.9 frame_cleopatra_d               
+  P1_074 C3    H INTER  4s need  3.5 frame_host_f                    
+  P1_075 C4    G INTER 14s need 13.2 frame_cleopatra_b                <-- over 12s
+  P1_076 C5    broll
+  P1_077 C6    H INTER  4s need  4.0 frame_host                      
+  P1_078 C7    G INTER 12s need 11.8 frame_cleopatra_e               
+  P1_079 C7r   H REACT  6s          frame_host_e                    
+  P1_080 LC8   G REACT  5s          ('chain', 'C7')                 
+  P1_081 C8    H INTER  7s need  6.6 frame_host_b                     AUTO
+  P1_082 C9    G INTER  5s need  5.0 frame_cleopatra                 
+  P1_083 C9r   H REACT  4s          frame_host_d                    
+  P1_084 C10   H INTER  5s need  4.5 frame_host_d                    
+  P1_085 C11   H REACT  4s          ('chain', 'C10')                
+  P1_086 C12   G REACT  6s          frame_cleopatra_b                AUTO
+  P1_087 C13   G INTER  6s need  5.2 frame_cleopatra_b               
+  P1_088 C14   G INTER  7s need  6.6 ('chain', 'C13')                
+  P1_089 C15   H INTER  5s need  4.3 frame_host_c                    
+  P1_090 C16   G INTER 12s need 11.5 frame_cleopatra_c               
+  P1_091 LC17  G REACT  3s          ('chain', 'C16')                
+  P1_092 C17   H INTER  3s need  1.9 frame_host_b                    
+  P1_093 C18   G INTER  3s need  2.3 ('chain', 'LC17')               
+  P1_094 C19   H INTER  4s need  3.1 frame_host_e                    
+  P1_095 C20   G INTER 12s need 11.1 frame_cleopatra_d               
+  P1_096 C21   H INTER  9s need  8.3 frame_host                      
+  P1_097 C22   broll
+  P1_098 C23   G INTER 11s need 10.3 frame_cleopatra_b               
+  P1_099 LC24  G REACT  5s          ('chain', 'C23')                
+  P1_100 C24   H INTER  5s need  4.9 frame_host_f                    
+  P1_101 C25   G INTER  7s need  6.4 ('chain', 'LC24')               
+  P1_102 C25r  H REACT  5s          frame_host_d                    
+  P1_103 C26   H INTER  4s need  3.1 frame_host_d                    
+  P1_104 C27   G INTER  8s need  7.4 frame_cleopatra                 
+  P1_105 BRK2  actbreak
+  P1_106 D1    H INTER  5s need  4.5 frame_host_b                    
+  P1_107 D2    broll
+  P1_108 D3    G INTER  9s need  8.2 frame_cleopatra_c               
+  P1_109 LD4   G REACT  3s          ('chain', 'D3')                 
+  P1_110 D4    H INTER  3s need  2.8 frame_host_e                    
+  P1_111 D5    G INTER  8s need  7.8 ('chain', 'LD4')                
+  P1_112 D6    H INTER  3s need  2.6 frame_host                      
+  P1_113 D7    G INTER  4s need  3.4 frame_cleopatra                 
+  P1_114 D7r   H REACT  5s          frame_host_e                    
+  P1_115 LD8   G REACT  3s          ('chain', 'D7')                 
+  P1_116 D8    H INTER  3s need  1.7 frame_host_c                     AUTO
+  P1_117 D9    G INTER  9s need  8.7 ('chain', 'LD8')                
+  P1_118 D10   H INTER 12s need 11.6 frame_host_c                    
+  P1_119 D10r  G REACT 10s          frame_cleopatra_d               
+  P1_120 D11a  G INTER  9s need  8.9 frame_cleopatra_d               
+  P1_121 D11b  G INTER  8s need  7.7 ('chain', 'D11a')               
+  P1_122 D12   H INTER  3s need  2.8 frame_host_b                    
+  P1_123 D13   H INTER  3s need  2.1 frame_host_f                    
+  P1_124 D14   G INTER  3s need  2.1 frame_cleopatra_e               
+  P1_125 D15   H INTER  5s need  4.5 frame_host_d                    
+  P1_126 LD15  G REACT  3s          frame_cleopatra_b               
+  P1_127 D16   G INTER  8s need  7.5 frame_cleopatra_b               
+  P1_128 E1a   H INTER 10s need  9.7 frame_host_e                    
+  P1_129 E1b   H INTER  5s need  5.0 ('chain', 'E1a')                
+  P1_130 E2    broll
+  P1_131 E3    G REACT  4s          frame_cleopatra                 
+  P1_132 E4    G INTER  6s need  5.2 frame_cleopatra                 
+  P1_133 E5    H INTER  4s need  3.1 frame_host_b                    
+  P1_134 BUMP  bumper
+  FLAG: >3 consecutive INTERVIEW rows ending P1_090
