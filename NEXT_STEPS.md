@@ -3,9 +3,9 @@
 > 📋 **Discussion queue — `DISCUSSION_QUEUE.md`: all 7 points settled (2026-09-23).** ⏰ **Next: the two reminders at the end of the queue** — plan all test takes together (T1–T6), then the Part 1 script decisions (incl. rewriting Part 1's §9 to Mode 4 §15 before its publish sheet is built).
 > 🔁 **DECIDED 2026-09-23: rerun Cleopatra from Mode 1** — see **B5** below. The process is mapped in the artifact **The Running Order** (https://claude.ai/artifact/L98t6WjsEfE9G2XuFiHVP7) — **republish it whenever the process changes** (Salah: *"keep it updated always so i can follow up"*).
 
-**Where we are (2026-09-28): Cleopatra Part 1 — every clip is made** (`Shots/`, outro included). **Skill cleanup done
-2026-09-28** (A11). **Next: the ElevenLabs voice pass** (`voice_folders.py`; `P1_028` and any remade `_i` clips still to
-convert, and the `P1_004` remake if not yet made), **then the edit — Mode 6 in a new chat**, first step `batch_check.py`, then assembly.
+**Where we are (2026-09-28): Cleopatra Part 1 — every clip is made** (`Shots/`, outro included) **and every talking clip
+is voice-changed** (`Voice/P1/done/`, 93 of 93). **Skill cleanup done 2026-09-28** (A11). **Next: the edit — Mode 6 in a
+new chat**, first step `batch_check.py`, then assembly.
 The B5 log below is the history of how Part 1 got here.
 
 Project-wide work first — everything here is reused by every episode, so a mistake
