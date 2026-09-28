@@ -42,7 +42,7 @@ talk720 = [x for x in talk_all if '720p' in x[6].split('\n')[0]]   # audio-only 
 react = [x for x in rows if x[1] == 'REACTION']
 broll = [x for x in rows if x[1] == 'BROLL_GEN']
 out = [f'# Round {n} — generation sheet', '',
-       f'Generated from `{PART}_kit.md` by `round_sheet.py`. **{len(rows) + len(chain)} clips.** All made by hand on kling.ai. **Save each take you are happy with straight to `Shots/<id>.mp4`** (a retake replaces the file). No Claude check per take — the full check runs once at the start of the edit (Mode 6).',
+       f'Generated from `{PART}_kit.md` by `round_sheet.py`. **{len(rows) + len(chain)} clips.** Made through the Kling CLI in waves (`cli_wave.py`, L52) or by hand on kling.ai as the fallback — same blocks, same settings. **Each kept take lives at `Shots/<id>.mp4`** (a retake replaces the file). No Claude check per take — the full check runs once at the start of the edit (Mode 6).',
        'Every studio clip: 1080p, **camera chip OFF** — the prompt’s own camera + lighting paragraphs hold the frame (L51). Paste each block whole.', '']
 if held:
     out += [f'> ⛔ **HELD — {len(held)} clips wait for a regenerated seed frame** ({", ".join(sorted(hold))}); they are not on this sheet. Regenerate the frame (same file name), then rebuild the sheet: ' + ', '.join(f'`{a}`' for a, _ in held), '']

@@ -4,9 +4,9 @@
 `part` 1 of 2 · guest `@guest_cleopatra` (Reconstructable tier, named figure — no composite card) · host fixed.
 
 **Anchor images** (all checked on disk 2026-09-23; seed frames viewed, montage in `_kit_source/grounding_*.jpg`):
-- Host seed frames — `Start_Frames/Host/frame_host.png`, `_b`, `_c`, `_d`, `_e`, `_f`; direct address `Start_Frames/Host/frame_host_direct_b.png`.
-- Guest seed frames — `Start_Frames/Cleopatra/frame_cleopatra.png`, `_b`, `_c`, `_d`, `_e`.
-- Close — `Start_Frames/Cleopatra/frame_wide_cleopatra_marked.png` (start frame of `BRAND_bumper_out`).
+- Host seed frames — `Start_Frames/Host/frame_host.png`, `_b`, `_c`, `_d`, `_e`, `_f`, `_h`, `_i`; direct address `Start_Frames/Host/frame_host_direct.png`, `_b`, `_c`.
+- Guest seed frames — `Start_Frames/Cleopatra/frame_cleopatra.png`, `_b`, `_c`, `_e`, `_i` (and `_f`, `_g`, `_h`, made for Part 2); `_d` retired 2026-09-28 (L56).
+- Close — the per-part outro wide `Start_Frames/Cleopatra/frame_wide_cleopatra_outro_marked.png` (built from three references, L59; start frame of `BRAND_bumper_out`).
 - Fixed furniture — `Fixed_Assets/Branding/BRAND_opening.mp4`, `BRAND_actbreak_vessel`, `BRAND_actbreak_stone`.
 - Thumbnail portrait — `Episodes/Cleopatra/thumb_portrait_cleopatra.png` (Mode 2).
 
@@ -23,12 +23,13 @@
 | Audio-only talking clips (picture never used) | Kling 3.0 **Turbo at 720p**, audio on — **8 cr/s** · marked **720p** in the row header and grouped separately in the round sheet |
 | Silent reactions | Kling 3.0 **Standard, audio OFF** — 8 cr/s |
 | B-roll | Kling image-generation still (kling.ai, as tested), then Kling 3.0 **Turbo**, audio on — 10 cr/s |
-| Camera preset | **stationary preset ON** on every dialogue and reaction clip, plus the full `LOCK` paragraph. **No** preset on b-roll — b-roll moves |
-| Every other Kling preset | forbidden on dialogue (they are prompt text describing what the seed frame already fixes) |
+| Camera | **chip / preset OFF** — prompt structure v3 (`LOCK` camera paragraph first, `CONT` lighting paragraph last) holds the camera by itself (L51). b-roll moves by its own prompt |
+| Every Kling preset | none used (they are prompt text describing what the seed frame already fixes) |
 | Prompt enhancer | not available on Turbo; gesture paragraphs stand as written |
-| End-frame slot | Turbo has none — joins are chains |
+| End-frame slot | Turbo has none. **Every silent reaction** (Standard) has its start image in the end slot too (L44) |
 | Voice | ElevenLabs speech-to-speech on every talking clip, paid tier |
-| Paste | **from this file or the round sheet, never from chat.** Every paragraph after the first starts with one space (Kling strips paragraph breaks) |
+| Paste | **from this file or the round sheet, never from chat.** One unbroken line per paragraph; studio prompts have no leading spaces (v3, L51) |
+| Route | the Kling CLI in waves (`cli_wave.py` → `kling_run.mjs`; b-roll `kling_broll.mjs`), the website as fallback (Mode 4, *Generating*) |
 
 Record any exposed creativity / cfg value the first time it is seen, and keep it for the whole part.
 
@@ -63,12 +64,12 @@ Host: {{HOST_POSES}}. Guest: {{GUEST_POSES}}. Chosen per beat from the two pose 
 ## 4 · Generation order
 
 0. **The test batch (§4b)** — {{TEST_IDS}}. First, before any other spend, because each one tests a technique this kit relies on. They are normal kit rows: a clip that passes is kept.
-1. **Pass 1** — every row with a seed frame, chain sources included: `python3 Fixed_Assets/tools/round_sheet.py Episodes/Cleopatra 1 --part 1` → `ROUND1_prompts.md`. Clips already in `shots/` (the test batch) are skipped automatically.
+1. **Every clip, from one sheet** — `python3 Fixed_Assets/tools/round_sheet.py Episodes/Cleopatra 1 --part 1` → `ROUND1_prompts.md`, in kit order, each chained clip directly under its source; made in CLI waves (`cli_wave.py`, which extracts chained start frames itself) with the website as fallback. Clips already kept in `Shots/` are skipped automatically. *(Part 1: every clip made by 2026-09-27.)*
    **Duration calibration:** Cleopatra's rate (4.3 syl/s) is measured and on file (`CAST.md`) and the host's carries over, so no separate calibration round — but measure the first three talking clips of Pass 1 (onset, rate, pause per break) and stop if either voice is more than ~10% off.
-2. **Chain frames** — `python3 Fixed_Assets/tools/chain_frames.py Episodes/Cleopatra 1`. Time the cut word in `[[B4]]` first and write it into `[[B5]]`'s row (`chain from [[B4]] at 6.42s` form).
-3. **Pass 2** — the chained rows: `round_sheet.py Episodes/Cleopatra 2 --part 1`, each started from its source clip's last frame **with Kling's own last-frame feature** (the extracted `_start.png` is the fallback). Run `chain_frames.py` again to measure every join → `shots/_measure/JOIN_GRADES.md`.
+2. **The cut-in frame** — time the cut word in `[[B4]]` and write it into `[[B5]]`'s row (`chain from [[B4]] at 6.42s` form).
+3. **Measure the joins** — `python3 Fixed_Assets/tools/chain_frames.py Episodes/Cleopatra 1` → `Shots/_measure/JOIN_GRADES.md` for the edit.
 4. **Voice pass** (ElevenLabs, {{VOICE_N}} talking clips; never reactions or b-roll), then **assembly** (§6), then Mode 6.
-5. **`BRAND_bumper_out` last** — the charcoal pass on the marked wide, then the 5 s transformation.
+5. **`BRAND_bumper_out` last** — the outro wide (Seedream, three references), the mark, the charcoal still, then the 5 s transformation (its row carries all the steps).
 
 ### Chain table
 
@@ -76,8 +77,7 @@ Host: {{HOST_POSES}}. Guest: {{GUEST_POSES}}. Chosen per beat from the two pose 
 |---|---|---|---|
 {{CHAIN_TABLE}}
 
-**Pass 1** — every other row, including the chain sources {{CHAIN_SOURCES}}.
-**Pass 2** — {{CHAINED}}, each started from its source clip's last frame **with Kling's own last-frame feature** (colour is matched in the edit, `JOIN_GRADES.md`); `chain_frames.py`'s extracted frame is only the fallback.
+Chain sources: {{CHAIN_SOURCES}}. Chained: {{CHAINED}} — each made right after its source is kept, from the source's last frame (Kling's last-frame feature on the website, or `cli_wave.py`'s extraction); colour is matched in the edit (`JOIN_GRADES.md`).
 No chain is deeper than three links (the longest is the Arsinoe `SPLIT`: two-up reaction → A → B). An `OFFMIC` row never appears in picture, so it neither breaks nor needs a chain.
 
 ## 4b · The test batch (Mode 4 §0c) — Part 1 of a new run, before Pass 1

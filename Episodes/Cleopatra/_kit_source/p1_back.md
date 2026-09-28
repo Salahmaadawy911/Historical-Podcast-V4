@@ -1,6 +1,6 @@
 ## 6 · Assembly
 
-Done here (Mode 4 §9b), not handed off. Drop each clip into `Episodes/Cleopatra/shots/` named exactly by its id (`P1_014.mp4`); the filename is the only link to its row.
+Run at the start of the edit chat (procedure: Mode 6 §3), after `batch_check.py`. Each kept clip is `Episodes/Cleopatra/Shots/<id>.mp4`; the filename is the only link to its row.
 
 1. **Voice pass first** on all talking clips, before trimming; keep the raw Kling clips beside the converted ones.
 2. **Strip 1152 samples from the head of every converted clip and loudness-normalise it** — ElevenLabs' MP3 carries one granule (26.1 ms) of head padding; the pass returns ~10 LUFS low. Both are measured properties of the pass, not per-clip judgements:
@@ -10,7 +10,7 @@ Done here (Mode 4 §9b), not handed off. Drop each clip into `Episodes/Cleopatra
 3. Probe every clip: duration, `silencedetect` at −38 dB for speech in/out, the noise floor.
 4. Trim heads and tails **in silence**, never mid-phoneme. Close gaps to ~0.3 s inside an utterance, more at a genuine turn. A pause over ~1.2 s that is not a written `BEAT` is trimmed and hidden (punch, reaction, card or b-roll).
 5. Lay reactions, b-roll and two-ups at the points their `edit_placement` names; J-cut speaker changes (the incoming voice leads the picture by a few frames).
-6. **Level every chained join** with the per-clip gain in `shots/_measure/JOIN_GRADES.md` (`chain_frames.py` writes it after Pass 2). Normalise each b-roll clip against its own first frame (b-roll warms and darkens across a clip).
+6. **Level every chained join** with the per-clip gain in `Shots/_measure/JOIN_GRADES.md` (written by `chain_frames.py`). Normalise each b-roll clip against its own first frame (b-roll warms and darkens across a clip).
 7. **`ROOMTONE_studio` under the entire part**, constant, never ducking — the voice pass strips the studio floor out of every clip.
 8. Subtitles from the **Subtitle** fields; on-screen source credits on `[D]` lines only (a context card's source line *is* the credit when both would show at once).
 9. **Finish twice:** a clean master (no text of any kind — Mode 5 cuts reels from it) and the titled master that is published.

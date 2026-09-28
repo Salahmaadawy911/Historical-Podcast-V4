@@ -6,11 +6,14 @@
 > detect it, and add a row to `LESSONS.md`. Fixing only the kit or the clip is not a fix.
 
 
-> 📂 **Inputs and output — added 2026-09-19 so each mode can run in its own chat.**
+> 📂 **Inputs and output.**
 > **Reads:** the finished clean master of the part, and §12 key lines in `P<n>_kit.md`.
 > **Writes:** `Episodes/<Guest>/P<n>_REELS.md`.
 > **Save the output to that file before the mode ends.** Anything that lives only in chat history
 > is lost to the next mode.
+
+> 📚 **How this file is kept (cleanup 2026-09-28).** Current rules only, each once, with its reason. History and
+> superseded versions: `DECISIONS_ARCHIVE.md`, `Fixed_Assets/LESSONS.md`, `_archive/skills_pre_cleanup_2026-09-28/`.
 
 
 Reels are not content. They are the doorway to the episode. Every decision in this
@@ -57,8 +60,8 @@ that is roughly one and a half a week.
 3. **Source Constraint.** A Reel is cut from clips the episode already generated — never
    regenerated at 9:16, never re-prompted for a vertical framing. A regenerated clip is a
    fresh take of the voice, and a Reel that sounds like a different person from the episode
-   it advertises undoes the consistency work. Vertical framing is achieved by pan-and-scan
-   on the existing 16:9 clip. Reels therefore cost zero generation credits.
+   it advertises undoes the consistency work. The vertical format is the paper page in rule 1 —
+   **never a pan-and-scan crop**. Reels therefore cost zero generation credits.
 
 4. **Never post the same cut twice.** Each Reel is a distinct moment with its own hook,
    its own framing, and its own text treatment. Reposting one cut with a new caption, or
@@ -84,7 +87,7 @@ that is roughly one and a half a week.
 ## Per-Reel deliverables
 
 - **Transcript excerpt** — exact, with the source shot IDs it is cut from.
-- **Re-framing directives** — pan-and-scan or split-screen moves for 9:16, per shot.
+- **Layout directives** — the paper-page layout per shot (rule 1); a two-up stacked host above, guest below.
 - **Sound & VFX directives** — text pop-ups, sound-effect hits, pacing markers.
 - **Hook line** — the first three seconds, written out.
 - **Release slot** — before the episode, with it, or days after.

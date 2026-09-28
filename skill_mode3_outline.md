@@ -6,12 +6,14 @@
 > detect it, and add a row to `LESSONS.md`. Fixing only the kit or the clip is not a fix.
 
 
-> 📂 **Inputs and output — added 2026-09-19 so each mode can run in its own chat.**
+> 📂 **Inputs and output.**
 > **Reads:** `Episodes/<Guest>/PITCH.md` and `Episodes/<Guest>/CAST.md`.
 > **Writes:** `Episodes/<Guest>/OUTLINE.md` — both parts, in the fixed format of *The outline file* below: acts, the hook line, every line of dialogue with its provenance tag, the toolkit tags, the context cards, pull-quotes and the Pronunciation table. Then `STORY_REVIEW.md` and `SCRIPT_READ.md` — **both parts in one review and one read**, approved by Salah before Mode 4 starts.
 > **Save the output to that file before the mode ends.** Anything that lives only in chat history
 > is lost to the next mode.
 
+> 📚 **How this file is kept (cleanup 2026-09-28).** Current rules only, each once, with its reason. History and
+> superseded versions: `DECISIONS_ARCHIVE.md`, `Fixed_Assets/LESSONS.md`, `_archive/skills_pre_cleanup_2026-09-28/`.
 
 > 🧼 **Rerunning a guest — the clean room. Added 2026-09-23.**
 > When a guest is rerun (their old work sits in `Episodes/<Guest>/_v1_archive/`), the archive is a
@@ -57,9 +59,25 @@
 >    Rephrase so the line ends on a vowel, nasal or fricative (*marked* → *chosen*, *worked* → *held*,
 >    *leave Egypt* → *leave Egypt behind*). 🔴 **No exceptions (Salah, 2026-09-24).** Even when the word
 >    *is* the line, move it off the end: *"Usually I am described."* → *"Usually, others describe me."* —
->    the idea survives, the last sound is a vowel. `TAIL-OK` is withdrawn; `lines_check.py` on the outline
->    >    **fails** every one. The same holds for the last word before a `SPLIT` seam — that is the end of
->    clip A — and the check covers it.
+>    the idea survives, the last sound is a vowel. `lines_check.py` on the outline **fails** every one. The
+>    same holds for the last word before a `SPLIT` seam — that is the end of clip A — and the check covers it.
+
+## 🚫 Tested and ruled out — do not bring these back
+
+- **A `VERIFY` tag, or any check left for later** — two such flags sat for weeks on the one person who cannot clear
+  them mid-edit; by then the line is a generated clip.
+- **Three-part arcs** — the middle part is the weakest position in a series; every arc is two parts.
+- **Interviewing a guest *at* a moment in their life** (the live-event frame, a per-guest "when") — withdrawn for the
+  retrospective frame (Mode 1).
+- **`TAIL-OK` — keeping a stop-cluster last word on purpose** (L12). No exceptions.
+- **A two-up where nobody talks; a `BEAT` of 2 s** (T6b, L10, L11).
+- **Any line carried by a two-person clip** — a wide, an establishing shot, a closing exchange in one frame. The voice
+  pass converts a clip to one voice, and the generated wide had a figure-to-chair scale fault. Both faces = `TWOUP`.
+- **Respellings with hyphens or inner capitals** (*Arsin-oh-ee*) — said syllable by syllable (L49). **Only rare names in
+  the table** — *Antony* was left out and came back *"Antoy's"* (L53).
+- **Delivery notes written as job labels or with "then"** (*"the premise"*, *"personal, then the decision stated"*) —
+  the model cannot play them (L1). One plain manner per sentence.
+- **Vocal artifacts in brackets inside a line** (*[sighs]*) — anything inside the quote is spoken.
 
 Before starting, view the guest's character sheet image (in `Episodes/[Guest Name]/`) and any candidate B-roll assets per `STUDIO_ASSETS.md`'s Visual Grounding Requirement, so this outline's manifest and prompts reflect how these assets actually look.
 1. 2-Part Breakdown:
@@ -69,15 +87,15 @@ Before starting, view the guest's character sheet image (in `Episodes/[Guest Nam
 
    **Pick the Part 1 break by finding the strongest unanswered question, not by a clock.** Break where the audience most wants the answer. The structure is fixed and repeats for every guest:
 
-   > host asks the question → guest gives a short response that opens more than it closes → host hands off → wide, music, credits.
+   > host asks the question → guest gives a short response that opens more than it closes → host's hand-off line → `BRAND_bumper_out` (the studio turning into a drawing) → end card.
 
-   The hand-off is the host's own clip and must be planned here, because the wide that follows it carries no dialogue (see **The wide never carries dialogue** below). Three clips, not two.
+   The hand-off is the host's own clip and must be planned here — nothing after it carries dialogue. No thanks, no goodbye after it (*Cut the goodbye*, below).
 
    **Two parts, not three.** The middle part of a three-part arc is the weakest position in the series: nobody enters there and many abandon it, and it costs exactly as much to generate as the parts people watch. Fold the turning point into Part 1 as the thing the guest is accused of, and give Part 2 the answer and the fall.
 
    **Part 1 must stand alone.** It is the only entry point the arc has — a browsing viewer never starts at Part 2. Part 1 has to work as a complete argument for someone who watches nothing else, with the cliffhanger as an invitation rather than a withheld ending. Part 2 is depth for people who already care, and should open by re-establishing the stakes in one exchange rather than assuming Part 1 is fresh in mind.
 
-   Target roughly 10–12 minutes of spine per part. Runtime is the cost: on kling.ai at 1080p every extra minute of talking is **about 600 credits** (Turbo, 10 cr/s), so a part that runs long is a budget decision, not a creative one. Silent coverage is far cheaper — Standard 3.0 with audio off is 8 cr/s — which is why reaction shots and silent wides are the affordable way to give a part air.
+   Target roughly 10–12 minutes of spine per part. Runtime is the cost: on kling.ai at 1080p every extra minute of talking is **about 600 credits** (Turbo, 10 cr/s), so a part that runs long is a budget decision, not a creative one. Silent coverage is far cheaper — Standard 3.0 with audio off is 8 cr/s — which is why reaction shots are the affordable way to give a part air.
 1b. Composite episodes — different arc shape:
    - When the guest is a Fully Anonymous Composite eyewitness, the arc is not compromise-then-reckoning. **Part 1 is what he saw; Part 2 is what he understood, and when.** The turn is the moment knowledge became unavoidable, not the moment a choice was made — he mostly had no choices to make.
    - **Part 2 closes on the record, not on the character.** A named figure gets the last word in their own episode; a composite does not. Plan that final beat here as a documented fact, a card, or the host — at outline, not improvised in Mode 4.
@@ -86,7 +104,7 @@ Before starting, view the guest's character sheet image (in `Episodes/[Guest Nam
 
 2. Asset Manifest:
    - State `@guest_[name]` or `@archival_[name]` — whichever Mode 2 produced for this guest.
-   - List any recurring historical B-roll character tags needed (e.g., `@roman_legionary`).
+   - List the b-roll extras needed and the **wardrobe text block** each uses (e.g. `legionary_late_republic` in `STUDIO_ASSETS.md`) — never a character sheet for an anonymous extra.
    - If the outline references a real, named figure who is central to the story but isn't the interviewed guest, do not default them to off-screen or Eyewitness Substitution on the basis of fame alone. Run the full Likeness Tier check on them first (see `skill_mode1_pitch.md`'s classification guard) — a pre-photographic or otherwise non-photographed figure with no confirmed life-portrait is very likely Reconstructable, and worth casting as an on-screen B-roll character via Mode 2 rather than skipping. Only keep them off-screen if they are genuinely plain Iconic tier (a confirmed, dense documented-from-life visual record) or if a Reconstructable attempt is actually tested and blocked.
 3. B-Roll Extras — wardrobe blocks, not character sheets:
    - **Anonymous b-roll extras are no longer cast as character sheets.** Two findings retired that: b-roll is charcoal and graphite drawing on toned paper, which a photoreal sheet cannot drive; and passing a reference image for anonymous crowds produced roughly twenty clone faces in testing. Extras are generated from **description alone, with no reference image**.
@@ -98,12 +116,15 @@ Before starting, view the guest's character sheet image (in `Episodes/[Guest Nam
 ## Direct address hands off with a turn, and the outline says so
 
 **When a direct-address beat is followed by the same character speaking in the studio, write the
-hand-off as a physical turn** — he finishes to camera, turns his head toward the guest on the last
-word, and the next shot opens already facing the guest.
+hand-off as a physical turn** — he speaks to camera, and his second sentence turns him toward the guest,
+eyes arriving on its last word.
 
 This is a writing decision, not a production one, because the turn has to be *motivated by the
-line*. A hand-off line that ends on "Tonight she answers for herself" turns naturally; one that
-ends mid-thought does not.
+line*: the turn is spread over the whole last sentence (Mode 4 §7, L38), so that sentence must be one that
+naturally turns to her. A hand-off that ends on *"Tonight she answers for herself"* turns naturally; one that
+ends mid-thought does not. **Mode 4 then cuts away to her silent reaction as the turn lands and brings him back
+on his guest-facing seed** (L40) — so the welcome that follows starts on her face, which is where the guest is
+first seen anyway.
 
 **The same applies going the other way** — a sign-off that turns from the guest to camera is written as a turn motivated by the line, just reversed.
 
@@ -114,9 +135,7 @@ chair — only the eyeline differs, so a straight cut moves the eyes and nothing
 ## The hook line — the first thing anyone hears
 
 `BRAND_opening` carries a **4.00-second hook slot, 4.00–8.00 s**, between the disclosure card and the
-intro, and the line that goes in it is nominated here. *(This section used to say a 6.17 s slot with
-a 2.17 s hold — superseded when the card moved inside the opening; `SERIES_FURNITURE.md` is the
-authority.)*
+intro, and the line that goes in it is nominated here (`SERIES_FURNITURE.md` is the authority on the slot).
 
 **It is a lift, not a new line.** Mark an existing guest line in the outline as `HOOK`. Writing a
 line that exists only in the teaser makes a promise the episode does not keep — the audience hears
@@ -125,9 +144,8 @@ it again in context twenty minutes later, and that second hearing is the payoff.
 **Treatment (2026-09-22):** the hook is not a studio shot — the guest's face emerges from the opening's paper while the line is spoken (`SERIES_FURNITURE.md`, *The hook treatment*). Choose a take where the face is turned toward the camera side and the mouth closes cleanly after the line.
 
 **Short, then a hold. About ten syllables.** A strike opens the slot, the line plays over the decay,
-and the next strike at 8.00 opens the intro. **The best hook is usually the shortest sentence** —
-settled 2026-09-21, when *"Egypt did not survive without me."* (9 syllables, 2.1 s) beat the two-
-sentence line first nominated (3.9 s, no room to breathe). Aim for **2–3 s of line and 1–2 s of hold
+and the next strike at 8.00 opens the intro. **The best hook is usually the shortest sentence** — a
+9-syllable, 2.1 s line beat a two-sentence one (3.9 s, no room to breathe) in the 2026-09-21 comparison. Aim for **2–3 s of line and 1–2 s of hold
 on the guest's face**: the hold is where the line lands. The hold is **live** if the take has a clean pause
 after the sentence (mouth closed, no breath for the next line), otherwise a **freeze frame** on the
 last closed-mouth frame — which is a legitimate dramatic device here, not a patch.
@@ -136,7 +154,7 @@ last closed-mouth frame — which is a legitimate dramatic device here, not a pa
 branding *is* the premise; a host introducing the episode is narration.
 
 **Nominate a clip, not just a line.** The slot carries picture — the edit lifts the whole shot, so
-the line has to come from a **cross-shot of the guest**, never the wide, which carries no dialogue.
+the line has to come from a **single of the guest**.
 The line is followed by a hold on that face before the intro begins, so pick a shot whose last beat
 is worth sitting on. A line that ends on a blink is a line
 that dies in the hold.
@@ -267,10 +285,6 @@ exposure by far. **A flag records where someone felt uneasy, not the extent of w
 there.** When any part of a `[D]` line is doubtful, re-read every assertion in it: name,
 relationship, number, date, and the causal claim joining them.
 
-⚠️ **Watch the syllable count when you fix one.** A one-word swap can push a clip past its duration
-floor — *"A winter"* is a syllable longer than *"Four months"*, which moved a 9s clip to 10s. Re-run
-the duration model on any line you change, at outline, where it costs nothing.
-
 The description's source list is then built from the [D] and [I] tags: nothing cited that is not used, nothing claimed that is not cited. Mode 4 carries the tags into the kit and audits them before generation; Mode 6 renders the list.
 
 Tagging at outline costs a few seconds a line. Retrofitting it to a finished kit means re-deriving the basis for every line against the sources — hours. Do it here.
@@ -286,7 +300,8 @@ written in one fixed format that the gates and the script read can parse. Both p
 ### Pronunciation
 | Word | Say it | note |
 |---|---|---|
-| Ptolemaic | tol-uh-MAY-ik | |
+| Ptolemaic | tol-uh-MAY-ik | write: Tolemaic |
+| Octavian | ok-TAY-vee-un | plain |
 
 ## Part 1 — <title>
 ### Opening
@@ -483,14 +498,11 @@ line, and anything written inside the quotation marks is spoken aloud.
   `tts_text`. Here a bracket inside a quote is read aloud, so they are written **as physical beats in
   the gesture paragraph** (*"he draws a breath before the last sentence"*), one per clip at most, and
   never as a blink (Mode 4 §5).
-- **Pronunciation — every rare name gets one, written here.** For every proper name or term a general
-  English speaker might mispronounce, add a row to the outline's **Pronunciation** table:
-  `| Word | Say it |` with the stressed syllable in capitals (*Ptolemaic — tol-uh-MAY-ik*). Mode 4
-  carries the table into the kit, adds a **Respell** for any word the model is likely to get wrong, and
-  writes the respelling **inside the prompt's quote** (settled 2026-09-24, Mode 4 §3 3b — a separate
-  pronunciation note is read aloud). This matters more than it looks: **the ElevenLabs
-  voice pass cannot fix a mispronounced word** — it keeps the pronunciation of the Kling take — so a
-  wrong name is baked into the clip. `lines_check.py` flags any rare name that has no entry.
+- **Pronunciation — the table is written here, and it is the only source.** `| Word | Say it | note |`, the
+  stressed syllable in capitals (*Ptolemaic — tol-uh-MAY-ik*), and a decision in the note column (below). Mode 4's
+  builder writes each `write:` respelling **inside the prompt's quote** (a separate pronunciation note is read aloud —
+  T1); subtitles keep the true spelling. It matters more than it looks: **the ElevenLabs voice pass cannot fix a
+  mispronounced word** — it keeps the Kling take's pronunciation — so a wrong name is baked into the clip.
   🔴 **The host's welcome names the show, every part (2026-09-28, Salah).** The title card shows it, but listeners and
   background tabs never see it. Part 1's welcome: *"Welcome to History Answers Back. <guest, styled>. Thank you for being
   here."*; later parts: *"This is History Answers Back. <guest> — welcome back."* One mention per part, in the welcome only.
@@ -507,7 +519,7 @@ line, and anything written inside the quotation marks is spoken aloud.
   `lines_check.py` fails `NAME` on any name without a row.
   🔴 **Every row carries a decision in its note column (2026-09-27, Salah, L48):** `write: <respelling>` or `plain`.
   Default to `write:` for any name with a silent letter, an unusual vowel cluster or a non-English ending (*Arsinoe →
-  Arsin-oh-ee*, *Ptolemies → Tolemies*, *Charmion → Karmion*); `plain` only for names an English speaker already says
+  Arsinowee*, *Ptolemies → Tolemies*, *Charmion → Karmion*); `plain` only for names an English speaker already says
   right (*Octavian, Actium, Tarsus*). **Stress homographs** — noun/verb pairs like *allies, record, present, object* —
   get a row too when they stand alone or carry the line (*"Allies."* after *"lovers"* came out wrong in `P1_046`). The
   builder respells from the `write:` column. 🔴 **A respelling is ONE plain word — no hyphens, no capitals inside (L49):** *Arsin-oh-ee* made her say the name syllable by syllable, like a correction (`P1_055`); *Meeds* and *Tolemies* (plain words) read naturally. Write *Arsinowee*, *Peloosium*, *Karmion*; `prompt_check.py` fails a raw `write:` word in a quote and a row with no decision.
@@ -564,26 +576,20 @@ facts are checked.
 - **Don't repeat the line.** If the next line says it, the card says something else.
 - Name the **exact word** it lands on. Mode 4 places it.
 
-## The wide never carries dialogue
+## Both faces at once — a two-up, never a two-person clip
 
-**Any line that must be heard is a single.** This is structural rather than stylistic: ElevenLabs speech-to-speech converts a clip to **one** voice, so a two-speaker clip comes back with both characters sounding identical. A two-shot can carry a conversation as *picture*, never as *dialogue*.
+**Any line that must be heard is a single.** ElevenLabs speech-to-speech converts a clip to **one** voice, so a
+two-speaker clip comes back with both characters sounding identical; and the generated two-shot put the figures a size
+too large for the chairs, a fault in the seed frame that rerolling does not fix. So no clip with both people in it is
+generated, anywhere, and the outline never writes a beat that needs one.
 
-Where a beat genuinely needs both characters and their words — the closing exchange is the model case — write it as **host single + guest single + a non-talking wide**. The lines survive the voice pass because each clip has one speaker; the wide supplies the geography.
+Where both faces matter at the same moment — a charge landing on the listener as it is said, an interruption that fails
+— mark a **`TWOUP`** (the two singles side by side, someone always talking; at most 7 per part). The only picture of the
+two of them in one frame is the close: the outro still turning into a drawing (`BRAND_bumper_out`), built by Mode 4.
+**Do not write an establishing wide into the cold open** — the cold open cuts from the hook straight into the singles.
 
-Two legitimate modes for the wide:
-
-| Mode | Model | Rate | Use |
-|---|---|---|---|
-| **Silent wide** | Standard 3.0, audio off | **8 cr/s** | establishing, a beat between acts, a held moment after a hard answer. Keep to 3–5s, or lay music under it — two people visibly mid-conversation but mute reads wrong if held long in silence. |
-| **Conversing wide, audio discarded** | Turbo, audio on | 10 cr/s | only where music covers it: the close and the credit roll. |
-
-**The silent wide is the cheapest clip type in the kit**, below every talking clip. Use two-shot beats freely for pacing — an outline may now reach for one where it previously had to avoid the wide entirely — provided the words live in the singles.
-
-**The two-shot appears once, at the close** — as the first frame of `BRAND_bumper_out`, before it turns into charcoal. It is the only thing that shows host and guest in the same room, and it costs nothing extra because that frame is already a seed frame. **Do not write an establishing wide into the cold open**: it was removed on 2026-09-18 for a figure-to-chair scale fault that rerolling cannot fix. The cold open cuts from the hook straight into the singles.
-
-**Budget note:** splitting a two-hander into singles plus a wide is three generations where a two-shot would be one. Worth it mid-episode for drama; not worth it for a close whose lines sit under a credit roll.
-
-The escape hatch, if a future episode genuinely needs an audible two-hander: split the clip's audio at the turn, convert each segment against its own voice, reassemble. Costly and fiddly — write the outline to avoid needing it.
+If a future episode genuinely needs an audible two-hander, the escape hatch is to split the audio at the turn and
+convert each segment against its own voice — costly and fiddly; write the outline to avoid needing it.
 
 ## Output Convention — prompts come to the chat, not only to the file
 The outline document still saves to `Episodes/[Guest Name]/`, but every prompt it

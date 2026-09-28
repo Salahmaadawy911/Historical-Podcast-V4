@@ -1,5 +1,8 @@
 # Voice Registry — ElevenLabs
 
+> 📚 Cleanup 2026-09-28: current registry and settings. The two corrected rules below (accent, host similarity) keep
+> their short history on purpose — both were intuitive, both were wrong, and both cost a round of testing.
+
 Voice is created once per character and never re-created. The ElevenLabs **voice ID** is the
 canonical identity; the prose description in `STUDIO_ASSETS.md` now only shapes the *source*
 performance Kling generates, which speech-to-speech then re-timbres.
@@ -168,8 +171,8 @@ one."* without either pleading or sneering? That is the register the whole part 
   accent"* — and were not touched. The wording now matches the ElevenLabs design description word
   for word, which is the point: **the Kling block decides the accent, the design description decides
   the timbre, and they must never disagree.**
-- **Every talking clip goes through the pass** — 65 in a Part 1-sized part. Reactions are
-  silent and skip it; b-roll has no dialogue; the wide's audio is discarded anyway.
+- **Every talking clip goes through the pass** — audio-only (720p) clips included; ~90 in a Part 1-sized part.
+  Reactions are silent and skip it; b-roll has no dialogue. Folders: `voice_folders.py` (Mode 6).
 - **Keep the unprocessed generation.** Store the raw Kling clip alongside the voice-changed
   one. If a voice is ever re-designed, the raw clips can be re-processed; a discarded original
   means regenerating video.

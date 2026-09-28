@@ -25,10 +25,9 @@ LAME encoder padding, which is the **1152-sample head offset** already measured 
 for in Mode 6. That rule is not a workaround for a bug — it is the permanent consequence of the
 tier, and it disappears only at Pro.
 
-**⚠️ Starter includes only ~3 minutes of music generation per month.** The six fixed cues are
-roughly 11 minutes of generation. They fit inside the 30,000 credit allowance but will consume
-about half of it. Generate the fixed set once, archive the masters, and never regenerate
-casually.
+**⚠️ Starter includes only ~3 minutes of music generation per month.** The series' music set is
+**complete** (five cues; `NEXT_STEPS.md` A9) — the masters and every alternate take are archived in
+`Fixed_Assets/Audio/` and `_raw_takes/`. Never regenerate a cue casually.
 
 **Commercial rights survive cancellation.** Official: "you will still have a commercial license
 to use whatever you generated during that subscription forever." The licence attaches to the
@@ -79,6 +78,8 @@ The operative facts:
 ### 3a · Voice Design — how guests are cast
 
 Guests are **designed, never cloned.** This is a legal position as much as a creative one; see §7.
+
+*(Every voice now exists — host and Cleopatra are done; this section is the method for the next guest.)*
 
 **Hard limits from the API, and they bite:**
 
@@ -142,9 +143,10 @@ carries 30+ clips across both parts, and it is **permanent**, because the voice 
 Start at or near the default; raise it in steps only if all three previews drift from the
 description, never as an opening move.
 
-**Record the `seed`.** This file opens by insisting the voice ID is written down so a voice is not
-re-created differently in six months — the seed is the other half of that. With the same inputs it
-regenerates the same voice. If the UI exposes it, it belongs in `VOICES.md` beside the ID.
+**The `seed` is not exposed in the web Voice Design UI** (checked 2026-09-18). So a voice designed on the
+web cannot be regenerated from parameters: **the saved voice is the asset — never delete it**, and keep a
+reference render (`VOICES.md`). If the seed matters for a future guest, design through the API, which returns it,
+and record it in `VOICES.md` beside the ID.
 
 **`quality` interacts with how casting actually works.** Three previews per charge is the whole
 audition mechanism, and higher quality means less variety between them — so a high quality setting
@@ -389,19 +391,10 @@ output **never reaches the Assets library** (`creative_get_available_assets` ret
 chat is the only place the takes appear. Download them as they arrive rather than trusting the
 canvas to still be findable later.
 
-Direct download by tooling is impossible — output sits behind signed Google Storage URLs and both
-the cloud workspace and the local shell are blocked from that host by egress policy. It is an
-Anthropic-side restriction and cannot be changed from this end. Downloads land in `~/Downloads`,
-which is connected to the session; `Fixed_Assets/Audio/intake.sh <name>` then files them.
-
-**⚠️ Files cannot be pulled down automatically.** Output sits behind signed Google Storage URLs
-and both the cloud workspace and the local shell are blocked from reaching that host by egress
-policy. This is an Anthropic-side restriction, not an ElevenLabs or Mac setting, and it cannot be
-changed from this end.
-
+**⚠️ Files cannot be pulled down automatically.** Output sits behind signed Google Storage URLs,
+and the session environments were blocked from that host by egress policy (as of 2026-09-15).
 **The route that works:** download from the ElevenLabs page in the browser, which lands the files
-in `~/Downloads`; with that folder connected to the session, they can then be filed into the
-project and processed automatically. Only the click is manual.
+in `~/Downloads`; `Fixed_Assets/Audio/intake.sh <name>` then files them into the project. Only the click is manual.
 
 Other practicalities:
 
@@ -420,8 +413,8 @@ Do not let a later session quietly turn any of these into a stated fact:
 
 1. Numeric values behind v3's Creative/Natural/Robust modes — unpublished.
 2. Voice-changer behaviour with multiple speakers or music in the source — undocumented.
-3. Egyptian Arabic dialect quality — undocumented; must be tested.
-4. Music credits per second — unpublished; **[measured] 25/sec on this account**.
+3. Egyptian Arabic **as a synthesis dialect** — undocumented. (Not used by this show: the host clone is *recorded* in Egyptian Arabic and speaks English — decided and tested, §4.)
+4. Music credits per second — unpublished; plan with the account rate in §2 (15/sec), not the `estimate_only` figure (25/sec).
 5. Whether the political-figure ban and No-Go list reach historical people — unaddressed.
 6. YouTube Content ID exposure — no official statement.
 7. Maximum music length, 5 min vs 10 min — the docs disagree with each other.

@@ -6,11 +6,14 @@
 > detect it, and add a row to `LESSONS.md`. Fixing only the kit or the clip is not a fix.
 
 
-> 📂 **Inputs and output — added 2026-09-19 so each mode can run in its own chat.**
+> 📂 **Inputs and output.**
 > **Reads:** the guest's name, from the user.
 > **Writes:** `Episodes/<Guest>/PITCH.md` — the full pitch: premise, Likeness Tier, Recognition Tier, the two-part arc, and the charge the guest answers.
 > **Save the output to that file before the mode ends.** Anything that lives only in chat history
 > is lost to the next mode.
+
+> 📚 **How this file is kept (cleanup 2026-09-28).** Current rules only, each once, with its reason. History and
+> superseded versions: `DECISIONS_ARCHIVE.md`, `Fixed_Assets/LESSONS.md`, `_archive/skills_pre_cleanup_2026-09-28/`.
 
 
 > 🧼 **Rerunning a guest — the clean room. Added 2026-09-23.**
@@ -47,6 +50,16 @@ This is not a stylistic preference. Three things depend on it:
 - **It is the more honest framing.** A simulated live historical moment edges toward pretending the event is happening. A figure reflecting is transparently a device, which is consistent with the disclosure card rather than in tension with it.
 
 **Do not pitch a "when".** There is no moment to choose. If a pitch only works because the guest is caught at a particular hour of a particular day, it is the wrong pitch.
+
+## 🚫 Tested and ruled out — do not bring these back
+
+- **A per-guest "when" / the live-event frame** — rejected above; it arrived once embedded in dialogue and contradicted
+  62 of 65 lines (`DECISIONS_ARCHIVE.md` §9–10).
+- **Three-part arcs** — every arc is exactly two parts (below).
+- **Recognition Tier C pitches, or fewer than three Tier A** — a good episode nobody clicks.
+- **Portraying anyone who died less than 100 years ago** — the recency gate is hard, not a judgement call.
+- **On a rerun, anything creative from the archive** — the clean room (above); the first Cleopatra rerun pitch copied the
+  old structure, hook and a next-part title, and was redone.
 
 ---
 

@@ -6,11 +6,36 @@
 > detect it, and add a row to `LESSONS.md`. Fixing only the kit or the clip is not a fix.
 
 
-> 📂 **Inputs and output — added 2026-09-19 so each mode can run in its own chat.**
+> 📂 **Inputs and output.**
 > **Reads:** `Episodes/<Guest>/PITCH.md` (Likeness Tier and arc).
-> **Writes:** `Episodes/<Guest>/CAST.md`, the character sheet, the five seed frames and the wide seed frames including `frame_wide_<guest>_marked.png` — **all start frames in `Start_Frames/<Guest>/`** (the Host's are in `Start_Frames/Host/`, 2026-09-26), the thumbnail portrait, and the voice ID in `Fixed_Assets/VOICES.md`.
+> **Writes:** `Episodes/<Guest>/CAST.md`; the character sheet; the **pose library — about nine seed frames** in
+> `Start_Frames/<Guest>/` with its `landmarks.json` (the Host's are in `Start_Frames/Host/`); `Episodes/<Guest>/poses.py`;
+> the thumbnail portrait; the voice ID in `Fixed_Assets/VOICES.md`; and `Episodes/<Guest>/VOICE_<guest>_reference.mp3`.
+> **No wide frames** — the outro wide is built per part in Mode 4 (L59).
 > **Save the output to that file before the mode ends.** Anything that lives only in chat history
 > is lost to the next mode.
+
+> 📚 **How this file is kept (cleanup 2026-09-28).** Current rules only, each once, with its reason. History and
+> superseded versions: `DECISIONS_ARCHIVE.md`, `Fixed_Assets/LESSONS.md`, `_archive/skills_pre_cleanup_2026-09-28/`.
+
+## 🚫 Tested and ruled out — do not bring these back
+
+- **Pose variants generated from a prompt** — they drift from the room (5 px shifts, 0.4 % zoom, 2 % light); variants
+  are made by **editing the reference frame** (L36), and an older prompt-built frame is rebuilt too, even if it passes
+  the checks (L56).
+- **A leaning-forward variant built from a prompt** — failed twice: the model reads *"leaning forward"* as *"move the
+  camera closer"* (table and microphone enlarged, 26.5 and 23.4 against a set under 13.4).
+- **Interlaced, clasped or steepled fingers in a new pose** — they glitch in motion (L46).
+- **Pose-table entries copied from the generation prompt** — two host frames differ from their prompts; write entries
+  from the finished image (L9).
+- **"toward him / toward her" in a pose move** — Kling reads *him* as the viewer (L58). Name the side of the frame.
+- **Per-guest wide frames and a marked wide** — scale fault and a host pose that never matched his last line (L59).
+- **A reference image for anonymous b-roll extras** — about twenty clone faces. Extras get a wardrobe text block.
+- **Accepting a frame set by room measurement alone** — the grid discards the chair along with the person, so a bigger
+  chair passed (L41); landmarks and an eye check side by side are both required (L56).
+- **Tuning the host's Similarity separately from the guests'** — tested, no audible difference (`VOICES.md`).
+- **Putting the accent in the ElevenLabs voice** — accent comes from the Kling `Voice:` line (below).
+- **Looking for the voice seed in the web UI** — not exposed; the saved voice *is* the asset, never delete it.
 
 
 ## Guest Visual Protocol (branches on the Likeness Tier field from Mode 1)
@@ -36,27 +61,22 @@ Output these fields instead of an image-generation prompt:
 - Audio: guest dialogue is AI-generated voice only, paired with the sourced archival image.
 - Studio Asset Tag: register this guest as `@Archival_[Name]` (not `@Guest_[Name]`) for use in later modes.
 
-## The output of this mode: `Episodes/<Guest>/CAST.md` — restored 2026-09-18
-
-**Reconstructed from the Cleopatra `CAST.md` that this mode actually produced**, plus
-`Fixed_Assets/POSE_LIBRARY.md` and `STUDIO_ASSETS.md`, after the original text was lost. Those
-files point back here — `STUDIO_ASSETS.md` states that guest pose registers "live in
-`Episodes/[Guest Name]/CAST.md`, written by Mode 2 at casting", and `POSE_LIBRARY.md` cites this
-file for the seed-frame prompt structure — so both halves are recoverable from their outputs.
+## The output of this mode: `Episodes/<Guest>/CAST.md`
 
 **Mode 2 is not finished until `CAST.md` exists.** Mode 4 reads it before assigning any shot.
 
 | section | what it carries |
 |---|---|
 | **Likeness Tier** | the tier from Mode 1, and one line on how it was cast |
-| **Character sheet** | the file and its entity tag, plus the cross-shot and wide plates |
+| **Character sheet** | the file and its entity tag, plus the cross-shot plate |
 | **Voice** | the `Voice:` block, **pasted byte-identical into every clip, across both parts** |
 | **Wardrobe** | itemised — hair, headwear, jewellery, garments, drape — **repeated identically in every seed-frame prompt** |
 | **Register** | how the character behaves: what they do instead of defending themselves, and how wide their posture range is |
 | **Performance profile** | 🔴 **the single source for everything guest-specific that Modes 3, 4 and 6 need** — see below |
-| **Pose Register — cross-shots** | every variant, with what each is *for* |
-| **Wide variants** | the same, on the wide plate |
-| **Acceptance record** | the measurements, not an opinion |
+| **Pose register** | every pose in the library, ordered withdrawn → engaged, with what each is *for* (the summary of `poses.py`) |
+| **Acceptance record** | the frame-set check numbers (room + FURNITURE) and the side-by-side eye check |
+| **Thumbnail portrait** | the file and the exact prompt used |
+| **Voice reference render** | `VOICE_<guest>_reference.mp3` |
 
 ### The performance profile — added 2026-09-22
 
@@ -67,7 +87,7 @@ casting decision, not a script decision.
 
 | field | what it decides | Cleopatra |
 |---|---|---|
-| **Prompt label** | the attribution in every Kling prompt — *"<label> says, …: "…""* — and the subject of every gesture line. Fixed for the whole arc; Kling's guide wants a consistent label | `The woman` |
+| **Prompt label** | the attribution in every Kling prompt — `<label> (<tone>): "…"` (Mode 4 §3) — and the subject of every gesture line. Fixed for the whole arc; Kling's guide wants a consistent label | `The woman` |
 | **Pronouns** | used in every gesture, reaction and interruption line | she / her |
 | **Default register** | the delivery every speaking prompt starts from; per-shot direction states only deviations (Mode 4 §4) | composed, unapologetic, never pleading — corrects premises rather than defending |
 | **Emotional ceiling** | the furthest the character goes, written as manner + limit (Mode 4 §4) | anger held well under the surface; never raised, never breaks |
@@ -97,16 +117,9 @@ here, with the character sheet attached as the **only reference image** (never a
 ⚠️ It is **reused for the guest's second part** — only the kicker and the statement change — so it
 is a per-guest asset, not a per-part one. Generating it again for Part 2 is waste and invites drift.
 
-**2. ~~The marked wide seed frame~~ — no longer made in Mode 2 (2026-09-28, L59).** The outro wide is now built **per part in
-Mode 4** from three references (`cam3_wide.png` + the host's and the guest's last-clip pose frames), so the figures are true to
-scale and each person matches their final clip. Mode 2 makes **no** `frame_wide_*` frames for a new guest. What Mode 2 must
-still provide for it: the pose frames themselves (they are the references). The old text is kept below for the record.
-
-~~**The marked wide seed frame — `frame_wide_[name]_marked.png`.**~~
-The wide seed frame with `BRAND_mark` composited onto the studio panel at the fixed coordinates in
-`STUDIO_ASSETS.md`. **`BRAND_bumper_out` starts from it at production time**, so it has to exist
-before Mode 4 runs, and the mark must be in the frame *before* the charcoal pass so it is drawn
-rather than stamped on. Register it in `CAST.md` with the pose variants.
+**2. No wide frames (L59).** The outro wide is built per part in Mode 4 from three references (`cam3_wide.png` + the
+host's and the guest's last-clip pose frames), so the figures are true to scale and each person matches their final
+clip. What Mode 2 provides for it is the pose frames themselves.
 
 🔴 **The general rule this came from: an artifact the kit names must be produced by a named mode.**
 "It already exists" is only true for the episode that happened to make it during testing. When
@@ -122,7 +135,7 @@ the production nothing; the use note is the whole value of the register.
 not enough — Mode 4 writes prompts from `Episodes/<Guest>/poses.py` (`GUEST = {…}`, same fields as the
 Host's `Fixed_Assets/tools/poses.py`; Cleopatra's is the worked example). For each frame: `desc`;
 `hold` — the posture held, no gaze, used in every silent reaction from it; `entry` — **required when a
-hand is at the face or chin**: the hand comes down as the line begins and stays down; `settle`,
+hand is at the face or chin** (L6): the hand comes down as the line begins and stays down; `settle`,
 `advance`, `still` — **one-way moves into a position that then holds**, never a move that goes and
 comes back (*nod, open-and-close, lift-and-settle-back* — Kling loops them). Mode 4's build stops on a
 frame with no entry. 🔴 **Make every variant by EDITING the reference frame, not from scratch (2026-09-26, measured).** Seedream
@@ -131,14 +144,14 @@ framing, lens, lighting, grade, grain and the same person … Change only <the a
 else changes."* Twins built this way matched the room far better than prompt-built ones (`frame_host_direct_c` from
 `frame_host_e`: room 2.8, shift 0, against 6.1 and a 5 px shift before; `frame_cleopatra_c` from `frame_cleopatra`:
 room 2.7, shift 0, against 5.2 and 5 px + 0.4 % zoom). A replaced frame goes to `Start_Frames/_replaced_<date>/`.
-🔴 **Frame-set check before approval (2026-09-26, Salah):** `python3 Fixed_Assets/tools/frame_set_check.py Start_Frames/<Guest>`
+🔴 **Frame-set check before approval (2026-09-26, Salah, L35):** `python3 Fixed_Assets/tools/frame_set_check.py Start_Frames/<Guest>`
 compares every new frame with the set's reference, the person excluded — the room must match: shift ≤ 2 px, zoom ≤ 3 px,
 brightness ≤ 2 %, colour ≤ 3. A frame that fails is regenerated before it enters a kit (the saved report is
 `Start_Frames/FRAME_CHECK.md`). Any frame used as an END frame is checked against its START twin the same way.
 **Write each entry by looking at the finished image**, never from the placement
 prompt — the model does not always obey it (two host frames differ from their prompts; found 2026-09-24).
 List in `avoid` the body contacts the pose does not have (*armrest* for hands-in-lap), so a hand-written
-gesture that fights the start frame fails `pose_check.py`. A regenerated frame keeps its entry unless the pose itself changed.
+gesture that fights the start frame fails `pose_check.py` (L8). A regenerated frame keeps its entry unless the pose itself changed.
 - 🔴 **No interlaced fingers in any guest pose (2026-09-27, Salah, L46).** Crossed or interlocked fingers from both hands read as glitched in motion. Write hands as *resting one over the other*, *side by side on the lap*, *one hand on the armrest*, *one hand open in the lap* — never *clasped*, *interlaced*, *fingers laced/crossed*, *steepled*, and put "fingers not interlaced" in the edit prompt. Applies to new guests and new pose frames only; Cleopatra's and the host's existing frames stay as they are (regenerating them would orphan kept clips).
 - 🔴 **Pose moves name the side of the frame, never *toward him/her* (2026-09-28, L58)** — *him* with one person in frame reads as the viewer, and she turned to the lens.
 - 🔴 **Rebuild the whole set, not just the flagged frames (2026-09-28, L56).** When a set moves to the edit method, every older prompt-built frame is rebuilt from the reference too, then all frames are looked at side by side — `frame_cleopatra_d` passed the checks and was still visibly off in chair and scale.
@@ -159,14 +172,14 @@ in `CAST.md`'s pose register; every new pose passes the frame-set check (room + 
 **Range follows character.** Cleopatra's is deliberately narrower than the Host's: a composed figure
 who swings between postures stops reading as composed.
 
-⚠️ **Do not write a forward-leaning variant.** Attempted twice and abandoned: **the model reads
-"leaning forward" as "move the camera closer."** Both attempts returned tighter shots with the table
-and microphone enlarged, measuring 26.5 and 23.4 against a set otherwise under 13.4 — either would
-jump on a cut. `KEEP IDENTICAL`'s "do not reframe or zoom" does not survive a lean instruction. Carry
-"more engaged" through an open hand instead, which is cheaper and usually truer to the character.
+⚠️ **Leaning forward.** Built from a prompt, a lean was read as *"move the camera closer"* (ruled out above). Built by
+**editing the reference**, one has passed (`frame_host_i`, 2026-09-27). So a lean is allowed only by the edit method, and
+only if it passes the frame-set check's zoom limit and looks right side by side. Otherwise carry "more engaged" through
+an open hand — cheaper, and usually truer to the character.
 
-### The seed-frame prompt — two inputs, one paragraph changes
+### The reference frame — two inputs, one paragraph changes
 
+**Only the set's first frame (the reference) is generated this way; every other pose is an edit of it** (above).
 `POSE_LIBRARY.md` holds the working template in full; it is the Host's copy of this structure and
 the guest's is identical in shape. The rule is:
 
@@ -179,19 +192,21 @@ the guest's is identical in shape. The rule is:
 - **The output is a photograph of the person in the room, not a panel sheet**, and none of the
   sheet's grey backdrop appears anywhere.
 
-### Acceptance — by measurement, never by eye
+### Acceptance — by measurement AND by eye
 
-**Compare room-only regions against the reference plate and record the numbers in `CAST.md`.**
+**Measurement:** `frame_set_check.py` (room + FURNITURE, above). **Eye:** the whole set side by side — an old frame that
+passes the numbers can still be visibly off in chair or scale (`frame_cleopatra_d`, L56). The original acceptance
+numbers for the first reference sets, recorded in `CAST.md`:
 Cleopatra's set, as the worked example: cross-shots **5.3–13.4 mean absolute difference**, inside
 the tolerance the accepted Host set occupies (**8.6–15.9**); wides a and b **6–11**; wide c ran
 **19–20 at the frame edges** — top of tolerance but geometrically sound, confirmed because the sign
 panel sat at **y 393–395, height 161** in all three wides and in the plate, proving no camera move.
 Panel blank in all three (**mean 216–220, dark pixels ~0.1%**).
 
-**A variant failing the check is regenerated, not kept**, and the rejected files are deleted rather
-than left to be picked up later by mistake.
+**A variant failing either check is rebuilt, not kept.** A replaced frame is moved to
+`Start_Frames/_replaced_<date>/` — out of the set, so it cannot be picked up by mistake, but not deleted.
 
-## ⚠️ Period Accuracy Gate — restored 2026-09-18
+## ⚠️ Period Accuracy Gate
 
 **Run this before writing any casting prompt, for the guest and for every extra.**
 
@@ -218,7 +233,7 @@ asked whether the costume was right for the date. On a research-led show that is
 be loose, because **the audience that rewards the positioning is exactly the audience that notices
 armour.**
 
-## Voice Design at cast time — restored 2026-09-18
+## Voice Design at cast time
 
 **Every guest gets one designed voice, created once at cast time**, and reused for every clip
 across both parts. Designing per clip is how a character stops sounding like one person.
@@ -284,8 +299,7 @@ for Cleopatra it was made late, not at casting).
 
 ## Recurring b-roll figures — the reference-sheet procedure
 
-**Written 2026-09-18, and Part 1 needs none of it.** Recorded because the first episode that does
-need it must not improvise.
+**Cleopatra needed none of it.** Recorded because the first episode that does need it must not improvise.
 
 **The problem it solves is identity, not style.** The charcoal style handles a person — tested, and
 it holds. What it does not do by itself is make that person *the same person* in two different

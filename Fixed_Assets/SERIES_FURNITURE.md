@@ -2,7 +2,11 @@
 
 Everything here is **guest-agnostic**. It is made once, costs nothing per episode after that, and is pixel- and sample-identical in every part — which is most of what makes a channel look like a channel rather than a series of uploads.
 
-**The amortisation argument is the whole point.** A closing wide generated per part costs 150 credits every part, forever, and carries the only two-character generation in the kit. A fixed outro costs one generation ever. Same for the title beat. Two assets built once remove ~200 credits a part and one class of risk permanently.
+**The amortisation argument is the whole point.** Built once, it costs nothing per part and cannot drift. The one element made per part is the outro (~43 cr), because it is the only picture of the two people together and has to show *this* guest.
+
+> 📚 **How this file is kept (cleanup 2026-09-28).** Current specs only. Superseded versions (the 6.17 s hook slot, the 5 s
+> bumper, the fixed empty-studio outro, the six-cue score, the crossfaded room tone) are in `DECISIONS_ARCHIVE.md` and
+> `_archive/skills_pre_cleanup_2026-09-28/SERIES_FURNITURE.md`.
 
 ---
 
@@ -23,27 +27,26 @@ So the rule is: **anything the show says about itself is drawn.** B-roll, the in
 | 2 | ↳ the hook | 4.00–8.00 | **second strike** | **edit-only lift** of a guest clip from later in the part |
 | 3 | ↳ the intro | 8.00–19.17 | **third strike** | motion graphics, no credits |
 | 4 | Host direct-address hook | ~10s | — | generated, per part |
-| 5 | ~~`WIDE_SILENT` establishing~~ | — | **removed 2026-09-18** | the two-shot now appears only at the close, as the first frame of `BRAND_bumper_out` |
 | 5b | `BRAND_composite` | ~4s | **eyewitness episodes only** — end of cold open, immediately before the guest first appears | motion graphics |
 | 6 | Welcome exchange → first question | — | — | generated, per part |
 | … | `BRAND_lowerthird` ×2 | 4.5s each | host and guest first proper appearance | motion graphics |
-| … | `BRAND_pullquote` ×3–4 | 4–5s each | over the silent reaction **after** its line | motion graphics |
+| … | `BRAND_pullquote` ×3–4 | 4–5s each | over the guest's held face **after** her line | per-part render |
 | … | `BRAND_symbol` watermark | whole part | bottom-left on cross-shots | static overlay |
-| … | `BRAND_mark` on the studio panel | every wide clip | fixed coordinates | static overlay |
 | … | `BRAND_subscribe` | ~4s | once, after the strongest beat of Act B or C | motion graphics |
 | … | **`BRAND_actbreak`** | **4.0s** | every act break (2 per part) | **fixed, zero cr** — study draws on the page over the theme's first 4s |
-| n−1 | `BRAND_bumper_out` | 5s transform, then held | the close | **~43 cr per part** — charcoal still (3) + a generated start→end transformation (40) |
-| n | `BRAND_endcard` | 20s | final card, held for YouTube end screens | motion graphics |
+| n−1 | `BRAND_bumper_out` | 5s transform, then held ~3 s | the close | **~43 cr per part** — outro wide (Seedream) + mark + charcoal still + a generated start→end transformation (40) |
+| n | `BRAND_endcard` | 20s | final card, held for YouTube end screens | per-part render of a fixed design |
 
-**Only two things in a part are generated per episode**: the dialogue and the b-roll. The outro is a three-credit still pass on a seed frame you already have, plus one transformation. Everything else in this table is furniture, made once.
+**Generated per part:** the dialogue, the reactions, the b-roll and the outro. Everything else in this table is furniture, made once (or a per-part render of a fixed design).
 
 ---
 
-## `BRAND_bumper_in` — the intro — **BUILT**
+## `BRAND_opening` — the front of every part — **BUILT**
 
-**Two files. `BRAND_opening.mp4` is the one the edit uses** — 19.17s, 1920×1080: a 6.17-second black slot for the hook line, then the 13-second intro, with the music unbroken from the first frame. `BRAND_bumper_in.mp4` is the 13-second intro alone, kept for any cut that does not want a hook.
-
-**No generation per episode, no credits, no drift** — motion graphics over three charcoal draw-on clips made once, so it is byte-identical in every episode forever. Rebuildable from `intro_source/intro_build.py`.
+**`BRAND_opening.mp4` is the one the edit uses** — 19.17 s, 1920×1080: the disclosure card, a 4.00 s hook slot, then the
+intro, with the music unbroken from the first frame. (`BRAND_bumper_in.mp4` is the intro alone, kept for any cut that
+does not want a hook.) **No generation per episode, no credits, no drift** — motion graphics over three charcoal
+draw-on clips made once. Rebuildable from `intro_source/intro_build.py` and `card_build.py`.
 
 ### The opening, end to end
 
@@ -51,7 +54,7 @@ So the rule is: **anything the show says about itself is drawn.** B-roll, the in
 |---|---|---|
 | **0.00** | **the disclosure card**, on paper | **first clock strike** |
 | 0.0–4.0 | two lines and the mark, held | music decays to −47 dB |
-| **4.00** | **the hook clip** — the guest, speaking | **second strike** |
+| **4.00** | **the hook** — the guest's face emerging from the page, speaking | **second strike** |
 | 4.0–8.0 | the line, then a hold on that face | |
 | **8.00** | **the intro** — the hills study draws itself | **third strike** |
 | 9.85 | it dissolves as the doorway begins | |
@@ -61,33 +64,25 @@ So the rule is: **anything the show says about itself is drawn.** B-roll, the in
 | 14.17 | **the mark alone on clean paper** | |
 | 14.52 | the sand begins to fall | |
 | 16.17–16.52 | sand stops, held | **the gap** |
-| **16.52** | the reversal | **the downbeat** |
+| **16.52** | the reversal — the sand runs back up | **the downbeat** |
 | 18.32 | the mark lands in the lockup | `SFX_plate` |
 | 19.17 | end | decays into room tone |
 
-**The clock counts the show in: strike, card. Strike, hook. Strike, intro.** Each of the three
-openers arrives on a struck note, four seconds apart, and one continuous performance carries all
-the way to the downbeat. That is why the card now sits inside this file rather than in front of it.
+**The clock counts the show in: strike, card. Strike, hook. Strike, intro.** Each opener arrives on a struck note, four
+seconds apart, one continuous performance to the downbeat. Between strikes the music sits at −47 dB — a clock in a room,
+not a score, so unbroken music from 0:00 does not break the dry-by-default rule. The clock is also the card's bed,
+which is why `MUSIC_Bed_Disclaimer` was cancelled.
 
-**This killed `MUSIC_Bed_Disclaimer`.** That cue existed only so the card would not play in true
-silence. The clock does that job, in the show's own voice — the set drops from six cues to five.
+**The disclosure card** — on paper, not black; the text is *set*, each line wiping in left to right behind a soft edge
+(a fade reads as a slide transition; a wipe reads as something being made); the mark small at the foot. Fixed wording,
+series-wide: *AI-GENERATED DRAMATIZATION / Historical reconstruction, not a recording.* and, small, *A conversation I
+wanted to hear.* It changes for the whole series at once or not at all.
 
-⚠️ **Between strikes the music sits at −47 dB.** That is a clock in a room, not a score, which is
-why unbroken music from 0:00 does not break the dry-by-default rule. A sustained bed would.
+⚠️ **`BRAND_opening.mp4` ships with the hook slot empty — a placeholder, not a design.** The per-part render
+(`BRAND_opening_p<N>.mp4`, Mode 6) fills 4.00–8.00; the fixed file is never edited.
 
-**The strikes fall at 0, 4, 8 and 12 — dead regular across the join.** That is what makes the hook
-and the intro read as one piece rather than two things glued together, and it is why the slot is
-6.17s rather than a round number: it is exactly one loop of the theme plus its run-in, so the clock
-never breaks stride.
-
-⚠️ **`BRAND_opening.mp4` ships with the hook slot as black — that black is a placeholder, not a
-design.** The edit lays the lifted guest clip over **4.00–8.00s**. The file exists so the music,
-the strikes and the intro are one fixed object that cannot drift; the picture in the slot changes
-every episode.
-
-**What fills the slot:** a short line (2–3 s) and then a hold on her face — **live** where the take
-pauses cleanly after the sentence, a **freeze frame** on the last closed-mouth frame where it does not.
-v1 Part 1 (archived, 2026-09-21 example only): *"Egypt did not survive without me."*, `P1_057` 5.6–9.6 s, 1.5 s live hold. The rerun picks its own hook.
+**What fills the slot:** a short line (2–3 s) and a hold on the face — **live** where the take pauses cleanly after the
+sentence, a **freeze frame** on the last closed-mouth frame where it does not.
 
 ### The hook treatment — the face emerging from the page (approved 2026-09-22, from Salah's mockup)
 
@@ -106,29 +101,18 @@ with the same continuous slow zoom, and the guest's face **emerges from the page
 
 Built per part by `intro_source/hook_build.py <hook clip> <in s> <out.mp4> --face CX,CY,H` after
 generation (the face position is the guest's *Hook framing* in `CAST.md`). Same treatment for every
-guest and every part; only the clip, the in point and the framing change. Demo: `Episodes/Cleopatra/_v1_archive/DEMO_opening_hook_paper.mp4`.
+guest and every part; only the clip, the in point and the framing change.
 
 ⚠️ **The slot is fixed at 4.00 seconds, forever.** The clip is cut to the furniture, not the
 furniture to the clip. `Fixed_Assets/Audio/teaser_bed.sh` builds a longer bed for the one episode
 that genuinely needs it, but that is an exception, not a workflow.
 
-### What happens
+### The reversal
 
-Toned paper, very slowly pushing in. The mark sits centred in ink, and the **only thing that moves is the sand in the hourglass.**
-
-| | |
-|---|---|
-| 0.0–0.35s | the mark fades up, hourglass full |
-| 0.35–2.0s | sand falls |
-| 2.0–2.35s | **it stops.** A beat. |
-| 2.35–3.1s | the sand runs **back up** |
-| 3.2–4.15s | the symbol settles into the stacked lockup |
-| 3.7–4.3s | HISTORY / ANSWERS BACK fades in beneath it |
-| 4.3–5.0s | hold |
-
-**The reversal is the whole idea.** Sand falls — time passes, the past recedes. Then it runs back up: *history answers back*. The premise of the show, stated in five seconds without a word.
-
-**The beat before the reversal is what makes it work.** Without the pause it reads as a loop; with it, the reversal reads as a decision.
+Toned paper, very slowly pushing in; the mark sits centred in ink, and **the only thing that moves is the sand in the
+hourglass** — it falls, **stops** for a beat, then runs **back up**: *history answers back*, the premise in a few
+seconds without a word. **The beat before the reversal is what makes it work** — without it the reversal reads as a
+loop; with it, as a decision. Timings: the end-to-end table above.
 
 ### Why nothing is generated
 
@@ -144,7 +128,7 @@ A video model asked to draw the mark would draw *a* microphone with *an* hourgla
 
 `intro_source/intro_build.py` regenerates the whole sequence at any resolution or duration. It reads `brand_symbol_720.png`, `brand_mark_stack_900.png` and `paper_source.png` and outputs a frame sequence; ffmpeg assembles it. Nothing is hand-keyed, so a timing change is an edit to three numbers.
 
-**Audio:** `MUSIC_Theme_Main` enters here and carries the beat alone. Cut the music so the reversal at 2.35s lands on a beat — that is the moment the idea arrives, and it should be heard as well as seen.
+**Audio:** the reversal lands on the theme's downbeat (16.52 s) — the moment the idea arrives is heard as well as seen.
 
 ### Rejected
 
@@ -215,28 +199,13 @@ The paper in both was restored to the real page after generation; see **"The mod
 paper"** in `INTRO_SKETCHES.md` for the measurement and the procedure. The worn step was dropped
 after repeated failures; the grinding stone carries the same *wear* idea without the architecture.
 
-### How they were made
+### How they were made — a record (rebuild only if lost)
 
-**Generate at 4 seconds, not 3.** The intro studies are 3s because they are trimmed and overlapped
-in a build; these are used whole. The generated clip is 4s and the last frame is then held to
-**5.000 s** in the build, so the closing chime has a page to land on — the one edit these assets
-get, done once. Kling 3.0 Standard, audio off, **8 cr/s = 32 cr a clip.** If a 4s option is not offered,
-generate 5s and use the first 4.000 — the tail is only the finished drawing holding still.
-
-**Prompt: the draw-on prompt in `INTRO_SKETCHES.md`, unchanged.** It names no object, so it is the
-same prompt for every study. Start frame `paper_source.png`, end frame the study, camera-stationary
-preset on.
-
-**Two clips, and they are not the opening's three.** The viewer sees hills, doorway and hand thirty
-seconds into every episode; seeing one again eight minutes later reads as running out of material
-rather than as a motif. Breaks own their own subjects, so the two registers stay separate.
-
-- **The vessel is already made** — `vessel.mp4`, the 3s draw-on test, and the study behind it is
-  clean. It needs regenerating at 4s (32 cr) but the still costs nothing.
-- **One more from the reserves** in `INTRO_SKETCHES.md` — worn step, knotted rope or worn coin.
-  ~3 cr for the still, 32 cr for the clip.
-
-**Total, once, forever: ~70 credits.** Alternate them: first break one, second break the other.
+Kling 3.0 Standard, audio off, generated at 4 s from `paper_source.png` to the finished study (the draw-on prompt in
+`INTRO_SKETCHES.md`, which names no object), then the last frame held to 5.000 s in the build; the paper restored to the
+real page with `paper_restore.py` (see *"The model changes the paper"* in `INTRO_SKETCHES.md`). The raw generations
+`vessel_4s.mp4` and `stone_4s.mp4` are kept because the finished breaks are derived from them. The breaks own their own
+subjects — never the opening's hills, doorway or hand, which would read as running out of material.
 
 ### Why fixed rather than per-act
 
@@ -252,70 +221,55 @@ a break. The page is the one register the b-roll never uses.
 
 ## `BRAND_bumper_out` — the outro
 
-**The studio two-shot turns into a charcoal drawing of itself on camera, and the credits roll over the drawing.** Since 2026-09-18 this is the only place the two-shot appears anywhere in a part.
+**The studio two-shot turns into a charcoal drawing of itself on camera; the drawing holds, then the end card.** It is the only place the two people appear together anywhere in a part.
 
 The transformation is **generated**, not cross-dissolved in the editor. Kling takes a start frame and an end frame and animates between them, so the change can be a drawing *happening* — tone washing in, the photograph falling away — rather than two images fading through each other. A cross-fade is a transition; this is an event.
 
 **Build, per part:**
 
-1. **Start from the outro wide** — since 2026-09-28 built per part in Seedream from three references (`cam3_wide.png` + the host's LAST-clip pose frame + the guest's last-clip pose frame), so the figures are true to scale and the host's pose matches his final line; then the mark is composited at the fixed panel coordinates → `frame_wide_[name]_outro_marked.png`. No wide clip is generated any more, so there is nothing to lift a frame from and nothing to pay for here.
-2. **Charcoal pass** on that still (Kling Image 3.0, image-to-image, 2K) → the end frame. Use the canonical style block, unchanged.
-3. **Generate the transformation**: start frame = the live still, end frame = the drawing, **5 seconds**, Kling 3.0 Standard with audio off — **40 cr**.
-4. **Hold the last frame** as a still for about 3 seconds, clean, then cross-dissolve to the end card. There is no reason to generate seconds of a picture that has stopped changing. *(This step said "under the rest of the credit roll" until 2026-09-18. There is no credit roll — see "There is no credit roll" below. That stale phrase is what sized `MUSIC_Outro_Bed` at 60 seconds when the outro is 31.)*
+1. **The outro wide — Seedream, three references in this order** (L59): `Fixed_Assets/cam3_wide.png` (room, chairs,
+   camera), the host's **last clip's** pose frame, the guest's **last clip's** pose frame. No character sheet (the pose
+   frames gave the better likeness). Make 3–4, keep the best → `Start_Frames/<Guest>/frame_wide_<guest>_outro.png`.
+   Why per part: a pre-made wide had the figures a size too large for the chairs, and the host's pose never matched his
+   last line — he speaks last, so the jump showed.
+2. **The mark** — `python3 Fixed_Assets/tools/outro_mark.py <outro.png>` → `…_outro_marked.png` (fixed panel
+   coordinates; stops if the framing moved). Before the charcoal pass, so the mark is drawn, not stamped.
+3. **Charcoal pass** on that still — Kling Image 3.0, 2K, 16:9, image-to-image → `…_outro_charcoal.png`, the end frame.
+4. **The transformation** — start = the marked wide, end = the charcoal still, **5 s, Kling 3.0 Standard, audio off,
+   chip off** — **40 cr**.
+5. **Hold the last frame** ~3 s, clean, then cross-dissolve to the end card.
 
-**~43 credits a part**, against 150 for the per-part wide it replaces — and no two-character clip anywhere in the pipeline.
+**~43 credits a part.** Mode 4's builder writes all three prompts into the kit's outro row, with the poses filled in.
 
-### The transformation prompt
+### The prompts
 
+**Step 1 — the outro wide** (Seedream; the builder fills the two pose descriptions from the pose tables):
 ```
-The camera is stationary. Locked on a fixed tripod — zero pan, zero tilt, zero travel, zero
-zoom. Framing, lens and composition hold exactly as the start frame for the whole clip.
-
-The photographed room becomes a charcoal drawing of itself. The change begins at the edges of
-the frame and moves inward, so the two figures are the last thing to turn. Colour drains away
-to the warm grey of toned paper; shadows deepen into smudged charcoal and the paper grain
-rises through the whole image.
-
-Both people stay exactly where they are, at the same scale and in the same posture, through
-the whole change. Nobody moves, enters or leaves.
-
-Audio: quiet room tone only. No dialogue, no music, no library audio, no voiceover, no
-on-screen text, no subtitles, no logo.
+Keep image 1 exactly as it is — the same room, the same two armchairs at exactly the same size and position, the same table, microphones, lamp, shelves, blank panel, framing, lens, lighting, colour grade and film grain. Seat the man from image 2 in the armchair on the left and the woman from image 3 in the armchair on the right, each exactly as they appear in their own image: same face, hair, clothing and posture. He is <host pose>, looking at her. She is <guest pose>, looking at him. Both are life-size adults sitting deep in the armchairs: the chairs stay the size they are in image 1, their seated bodies fill the seats the way real people do, their hips at the back of the seat, the chair backs rising to their shoulder blades. Neither person is enlarged. The camera does not move closer. Only these two people are in the room. Photorealistic still, 16:9.
 ```
 
-**Why the change starts at the edges and ends on the faces:** the last thing a viewer is looking at should be the last thing to transform. Turn the faces first and the rest of the frame is just catching up.
-
-### The test — **PASSED**. Format confirmed.
-
-Run on `frame_wide_cleopatra_marked.png`. The transformation from photograph to charcoal holds: the figures keep position, scale and posture through the change, and it lands on the drawing rather than overshooting. **This was the last unproven format in the project.** The procedure below stands as written; keep it for future guests.
-
-#### The test as run
-
-**It does not need a produced episode.** `Start_Frames/Cleopatra/frame_wide_cleopatra.png` already exists and is exactly the kind of frame the outro starts from. Total cost **~43 credits**.
-
-**Step 0 — use the marked seed frame.** `frame_wide_[name]_marked.png` already carries the mark on the panel at the fixed coordinates. It used to feed the 4s establishing generation as well; that shot was removed on 2026-09-18, so the outro is now its only use. See `STUDIO_ASSETS.md` for why the blank-panel rule was revised.
-
-**Step 1 — the end frame** — **Kling Image 3.0, 2K, 16:9, image-to-image with the marked still as the reference** (how every charcoal image in the show was made and tested; Salah, 2026-09-28). Paste as two unbroken lines:
-
+**Step 3 — the charcoal end frame** (Kling Image 3.0, image-to-image from the marked wide):
 ```
 A charcoal and graphite drawing on toned grey paper. Forms built from tone rather than outline — broad washes and smudged shading, edges appearing where two tones meet rather than being drawn. Heavy tonal contrast, deep shadow, visible paper grain and tooth. Monochrome apart from the faint warmth of the paper. No outlining, no chalk highlights, no metallic or gold accents.
 
-Keep the composition, the framing and both figures exactly as they are in the source image — same positions, same postures, same scale, same size in frame.
+ Keep the composition, the framing and both figures exactly as they are in the source image — same positions, same postures, same scale, same size in frame.
 ```
 
-**Step 2 — the transformation.** Start frame = the original wide, end frame = the drawing. **5 seconds, Kling 3.0 Standard, audio off** (40 cr).
-
+**Step 4 — the transformation** (v3 camera paragraph first; **no lighting paragraph** — the look is meant to change):
 ```
-The camera is stationary. Locked on a fixed tripod — zero pan, zero tilt, zero travel, zero zoom. Framing, lens and composition hold exactly as the start frame for the whole clip.
+Camera: locked-off static shot. Movement: hold one fixed camera position for the full clip. Speed: still and steady. Framing: keep the same angle, height, lens distance and composition. End: finish with the same framing and camera position.
 
-The photographed room becomes a charcoal drawing of itself. The change begins at the edges of the frame and moves inward, so the two figures are the last thing to turn. Colour drains away to the warm grey of toned paper; shadows deepen into smudged charcoal and the paper grain rises through the whole image.
-
-Both people stay exactly where they are, at the same scale and in the same posture, through the whole change. Nobody moves, enters or leaves.
+The photographed room becomes a charcoal drawing of itself. The change begins at the edges of the frame and moves inward, so the two figures are the last thing to turn. Colour drains away to the warm grey of toned paper; shadows deepen into smudged charcoal and the paper grain rises through the whole image. Both people stay exactly where they are, at the same scale and in the same posture, through the whole change. Nobody moves, enters or leaves.
 
 Audio: quiet room tone only. No dialogue, no music, no library audio, no voiceover, no on-screen text, no subtitles, no logo.
 ```
 
-⚠️ **Watch the mark in the charcoal pass.** If the image model mangles it at that size, fall back to compositing it crisp onto the finished drawing — pixel-perfect, and it reads as a printed mark on a page rather than a drawn sign. A legitimate look, just less integrated.
+**Why the change starts at the edges and ends on the faces:** the last thing a viewer is looking at should be the last thing to transform. Turn the faces first and the rest of the frame is just catching up.
+
+### The format — tested and passed
+
+The first run (on the old per-guest marked wide) held: the figures kept position, scale and posture through the change,
+and it landed on the drawing rather than overshooting. The test procedure is in `DECISIONS_ARCHIVE.md`.
 
 ### What to judge, in order
 
@@ -336,19 +290,17 @@ An earlier proposal was a fixed clip of the *empty* studio, generated once and r
 
 This says something: **the interview ends and the live picture becomes a drawing — the conversation becomes record.** For a show built on people answering across time, having the image turn into the medium we use for the past is the programme's thesis performed in five seconds. An empty room cannot do that.
 
-⚠️ **Test the first one before committing the format.** Start/end-frame interpolation is reliable for camera and lighting changes and less reliable when it has to hold two faces steady through a full style change. The failure to watch for is the figures drifting, re-posing or changing scale mid-transform. If that happens, the fallback is the editor cross-dissolve — worse, but free and certain.
-
-**It is guest-specific, and that is fine.** Being per-part only mattered when it cost 150 credits and carried real generation risk. At 43 credits it buys a better ending than a fixed asset would.
+**It is per part, and that is fine.** At ~43 credits it buys a better ending than a fixed asset would.
 
 ## Cards
 
-All motion graphics. Same visual family: ink ground, paper type, mark small at the foot.
+All motion graphics on the same toned paper, the mark small at the foot.
 
-**`BRAND_disclosure`** — 3s at 0:00. Already specified in `skill_mode6_edit.md`; wording is byte-identical across the series and changes only for the whole series at once.
+**The disclosure card** — the first 4 s of `BRAND_opening` (above); not a separate asset.
 
 **`BRAND_composite`** — ~4s, eyewitness episodes only, at the end of the cold open. Wording fixed in shape, `[N]` filled per episode.
 
-**`BRAND_subscribe`** — ~4s, once per part. Lower third rather than full screen, so the picture keeps running underneath. Place it **after** a strong beat, never over one. No sound effect: a whoosh on a research-led show reads as a different channel.
+**`BRAND_subscribe`** — ~4s, once per part, **BUILT** (`.mov` + `.webm`, alpha). Lower third rather than full screen, so the picture keeps running underneath. Place it **after** a strong beat, never over one. No sound effect: a whoosh on a research-led show reads as a different channel. **No bell** — it is a UI icon in a paper identity, and since April 2026 the bell no longer guarantees push delivery anyway.
 
 **`BRAND_endcard`** — 20s, held long enough for YouTube's end screens to sit on it. **A clean paper card**, cross-dissolved to from the held drawing. **BUILT 2026-09-18.**
 
@@ -445,7 +397,7 @@ Three derived files support the teaser bed, all from the same take:
 
 ### `SFX_sand` — the intro's only effect
 
-A dry granular trickle under the fall. Very quiet, close, no reverb — sand on paper, not an egg timer. It **stops dead at 2.0s** with the picture, and returns reversed for the run back up, which should sound subtly wrong in a way the viewer feels rather than identifies.
+A dry granular trickle under the fall. Very quiet, close, no reverb — sand on paper, not an egg timer. It **stops dead with the picture** (16.17 s in `BRAND_opening`), and returns reversed for the run back up, which should sound subtly wrong in a way the viewer feels rather than identifies.
 
 Do not let it read as a rainstick or a shaker. One thin stream.
 
@@ -455,7 +407,7 @@ Do not let it read as a rainstick or a shaker. One thin stream.
 
 A single soft paper settle — a sheet laid down on a desk. Dry, close, no reverb, no whoosh. It plays on the **entrance only**; exits are silent, because a sound on the way out draws attention to something leaving, which is backwards.
 
-Mix it far under dialogue. On the lower thirds it will be half-masked by speech and that is correct — it is felt, not heard. On the pull-quotes, which land over a silent reaction, it has room and will register properly.
+Mix it far under dialogue. On the lower thirds it will be half-masked by speech and that is correct — it is felt, not heard. On the pull-quotes, which land over the guest's held, silent face, it has room and will register properly.
 
 ⚠️ **Not a whoosh.** The same rule as `BRAND_subscribe`: a swoosh on a research-led show reads as a different channel. The paper identity gives a better answer than the generic one.
 
@@ -463,26 +415,20 @@ Mix it far under dialogue. On the lower thirds it will be half-masked by speech 
 
 The outro's picture is a five-second dissolve from photograph to drawing, a ~3-second clean hold, then the 20-second end card. The bed should be **already running** before the dissolve starts, so the transformation happens inside the music rather than being announced by it, and it should not resolve at the end — it decays.
 
-**That makes the outro about 31 seconds, so the cue is 35 — not 60.** Corrected 2026-09-18. The
-60-second figure was sized when this paragraph still said "a long hold under the credit roll", and
-the credit roll was deleted further down this same file. **When a structural decision is reversed,
-the numbers sized for it do not reverse themselves** — this cue was about to cost 750 credits for
-music nobody would hear.
+**That makes the outro about 31 seconds**, and the cue is cut in at source 10.0 s so its peak lands on the transformation.
+(Lesson kept from sizing it: **when a structural decision is reversed, the numbers sized for it do not reverse
+themselves** — this cue was once specced at 60 s for a credit roll that had been deleted.)
 
 ### What needs no sound
 
 The reaction shots and the b-roll sit on generated ambience and the room-tone bed. Adding cues there is the reflex that makes an edit feel busy.
 
-## `MUSIC_*` — six cues
+## `MUSIC_*` — five cues, all built
 
-**➤ Every prompt, with take counts and reject criteria, is in `Fixed_Assets/Audio/AUDIO_PROMPTS.md`.** That file is the one to work from at the keyboard; the table below is the summary.
-
-
-**Licence is settled: ElevenLabs Starter ($6) lists "Commercial License" and "Music commercial use" as included.** Generate the whole set on that plan, in one session.
-
-✅ **The licence survives cancellation — checked, not assumed.** ElevenLabs' own help documentation: *"Once your subscription ends, you will still have a commercial license to use whatever you generated during that subscription forever."* So the whole set can be generated on the $6 tier and the rights hold even if the plan is later paused or dropped.
-
-⚠️ **The free tier is the opposite and the trap is permanent.** Audio generated outside a subscription *"will always require attribution"*, and ElevenLabs gives no guarantee it stays available. Nothing made on the free tier can be relicensed later — which is why the free-tier proving clip is a test artefact and must never reach a published part.
+**Every prompt, with take counts and reject criteria, is in `Fixed_Assets/Audio/AUDIO_PROMPTS.md`; every alternate take is
+kept in `Audio/_raw_takes/`.** Licence: ElevenLabs Starter includes commercial and music commercial use, and **the licence
+survives cancellation** (*"you will still have a commercial license to use whatever you generated during that
+subscription forever"*). The free tier is the opposite and the trap is permanent — never generate a published asset there.
 
 **Settled: the show runs DRY by default.** Music sits at structural points — the disclosure card, the intro, act transitions, the close — and a drone appears only where the content earns it. In a Part 1-sized part that is **two places**, both in the darkest material. Bedding every line is what the channels this show is defined against do; not doing it is a credibility signal the target audience reads immediately. If a dry stretch feels flat, that is a writing note, not a scoring one.
 
@@ -498,16 +444,17 @@ The reaction shots and the b-roll sit on generated ambience and the room-tone be
 
 The palette that fits the brand — era-neutral, ink and paper, one warm accent — is **low bowed strings, a single struck metallic resonance, and air.** Nothing that places a century, because the guest list runs from Cleopatra to Montezuma.
 
-| Cue | Length | Prompt |
+| Cue | Status | Use |
 |---|---|---|
-| `MUSIC_Theme_Main` | 30s | *Sparse, restrained title music. Low bowed strings sustaining under a single struck metallic resonance that repeats slowly, like a clock mechanism. A sense of held breath and patience rather than drama. No percussion kit, no brass, no vocals, no melody that could be hummed. It pauses completely partway through, then returns on a single strong downbeat and resolves.* — **cut to the intro's beats, above** |
-| `MUSIC_Sting_Transition` | 4s | *A single short low string swell with one struck metallic resonance over it, decaying into silence. No impact hit, no riser, no reverse cymbal. Restrained and dry.* |
-| `MUSIC_Drone_Low` | 3 min | *A sustained low tension bed. Bowed double bass and cello holding a single quiet chord, almost static, with faint air movement underneath. No melody, no rhythm, no development. Designed to sit under speech without being noticed.* |
-| `MUSIC_Drone_High` | 3 min | *A sustained bed of quiet tension, higher and thinner than a bass drone. Bowed strings holding a close, slightly unresolved interval, with faint metallic shimmer. No melody, no rhythm, no percussion. Unease held flat and steady, never rising to a climax.* |
-| `MUSIC_Bed_Disclaimer` | 8s | *Neutral, quiet, unhurried. One sustained low string note and a single soft metallic tone, no movement, no drama, no emotion. It should sound like a room rather than like music.* |
-| `MUSIC_Outro_Bed` | ~~90s~~ **35s** | *A quiet closing bed. Low bowed strings settling downward, a single struck metallic resonance fading slowly, air and space around it. Elegiac but not mournful — an ending rather than a loss. No melody, no percussion, no vocals, no swell.* |
+| `MUSIC_Theme_Main` | **built** — take 01 | the whole of `BRAND_opening`; its 4.0 s unit is the act-break bed |
+| `MUSIC_Drone_Low` | **built** — take 01 | under the darkest material only |
+| `MUSIC_Drone_High` | **built** — take 03 | the same; distinguished from the low drone by **register** (centroid 2,961 Hz against 1,187 Hz), not dissonance — the "unresolved interval" brief came back consonant on all takes and was withdrawn; `_raw_takes/DRONE_HIGH_detune_test.wav` adds beating for free if a cut wants it |
+| `MUSIC_Outro_Bed` | **built** — take 01, 35 s | under the outro and the end card |
+| ~~`MUSIC_Sting_Transition`~~ | **cancelled** | the act break carries the theme's own strikes |
+| ~~`MUSIC_Bed_Disclaimer`~~ | **cancelled** | the clock strikes are the card's bed |
 
-`MUSIC_Bed_Disclaimer` matters more than its eight seconds suggest: the disclosure card must never play dramatic. A disclosure that sounds like a trailer reads as theatre about honesty rather than honesty.
+Two cues were killed because the theme already contained what they were for — worth remembering before commissioning
+anything new.
 
 ---
 
@@ -523,7 +470,6 @@ The palette that fits the brand — era-neutral, ink and paper, one warm accent 
 |---|---|
 | Dialogue | resynthesised by ElevenLabs — broadband dither, no room |
 | Silent reactions | Standard 3.0 with audio **off** — no audio track at all |
-| Silent wides | none — the wide clip was removed from the kit on 2026-09-18 |
 | Generated b-roll | its own generated ambience, not the studio |
 
 There is nothing to match. **The bed does not represent the room; it is the room.** Which means it can be generated now, on the subscription already paid for, with no dependency on having produced a part first — and it will be identical in every episode of the series instead of drifting with whatever the video model happened to produce that month.
@@ -539,14 +485,8 @@ movement, no birds, nothing that happens.
 
 **The instruction that matters is "nothing that happens."** Any event in the bed — a click, a distant car, a creak — becomes a metronome the moment the bed loops, and a listener will find it long before they can say why the audio feels wrong.
 
-**Build a long bed, not a short loop.** Generate **six takes at maximum duration**, discard any with an audible event, and crossfade the four cleanest into one long file:
-
-```bash
-# 4 takes -> one continuous bed with 3s crossfades
-ffmpeg -i t1.wav -i t2.wav -i t3.wav -i t4.wav -filter_complex  "[0][1]acrossfade=d=3:c1=tri:c2=tri[a];   [a][2]acrossfade=d=3:c1=tri:c2=tri[b];   [b][3]acrossfade=d=3:c1=tri:c2=tri"  -ac 1 -ar 44100 ROOMTONE_studio.wav
-```
-
-Then loop *that* under the part with a long crossfade at the seam. A bed assembled this way loops far less detectably than a single short take repeated forty times.
+**Built: take 04 of the prompt above, a 1:48 seamless loop** (chosen by measurement). It loops under the part with a
+long crossfade at the seam.
 
 **Level: around −60 dBFS RMS in the final mix** — roughly 40 dB below dialogue normalised to −19 LUFS. Present enough to glue the cuts, quiet enough never to read as hiss.
 
@@ -558,13 +498,13 @@ Laid under the **entire** part at a constant level, never ducking, running under
 
 ### The small set
 
-Generated b-roll now runs on Turbo **with audio on**, so each cutaway carries its own ambience. That demoted most of the SFX list from required to optional.
+Generated b-roll runs on Turbo **with audio on**, so each cutaway carries its own ambience. That made most of the SFX list optional.
 
 | Asset | Status |
 |---|---|
-| `ROOMTONE_studio` | **required** — nothing assembles without it |
-| `SFX_sand` | **required** — the intro plays without it, but thinly. See *Sound to picture*. |
-| `SFX_plate` | **required** — one paper settle, used on every lower third and pull-quote entrance |
+| `ROOMTONE_studio` | **built** — nothing assembles without it |
+| `SFX_sand` | **built** — take 02; the bumper cue is cut from it |
+| `SFX_plate` | **built** — take 3; one paper settle on every plate entrance |
 | `SFX_fire_crackle` | optional — fallback if the embers cutaway's generated track is thin |
 | `SFX_wind` | optional — same, for the exterior cutaways |
 | Outro dissolve | **no cue.** `MUSIC_Outro_Bed` is already running underneath; a sound on the transformation would announce it. |
@@ -572,22 +512,10 @@ Generated b-roll now runs on Turbo **with audio on**, so each cutaway carries it
 
 ---
 
-## Build order
+## Build status
 
-**Nothing here is blocked on anything else.** The licence question is closed, and the room tone turned out to be generated rather than extracted, which removed the one item that had to wait for a finished part.
+**All furniture is built:** `BRAND_opening`, both act breaks, `BRAND_subscribe`, the plates and card designs, the end-card
+and composite builders, the room tone, `SFX_sand`, `SFX_plate` and the five music cues. The only per-part item is the
+outro (`BRAND_bumper_out`), made in production (Mode 4).
 
-**Do the outro test first** (~43 cr, needs no produced episode) — it is the only item in this file whose format is unproven, and the fallback if it fails is free.
-
-1. ~~`ROOMTONE_studio`~~ — **DONE.** Take 04, chosen by measurement, 1:48 seamless loop.
-2. ~~`SFX_sand`, `SFX_plate`~~ — **DONE.**
-3. ~~`MUSIC_Theme_Main`~~ — **DONE.** Take 01, cut to the opening's beats with the take's own outro
-   spliced onto the end. The remaining five cues are still to make.
-4. ~~`BRAND_bumper_in`~~ — **done**, and superseded by **`BRAND_opening.mp4`**.
-4. The cards — motion graphics, no generation, no dependencies. Cheapest way to make an unfinished pipeline look finished.
-5. The lower third and pull-quote plate — **treatment is settled and approved**; geometry, colours, texture and type sizes are all in `STUDIO_ASSETS.md`, with reference renders in `Branding/lowerthird_paper_*.png`.
-
-`BRAND_bumper_out` is not in this list: it is built per part from a seed frame the part already has, so it belongs to production rather than to setup.
-
-All of 1–3 are one subscription and one sitting.
-
-**Still `PENDING` by design:** the thumbnail still prompt. Its structure is not settled and must not be invented per episode — test candidates against the criteria in the kit's Packaging section, then lock one prompt for every guest.
+**The thumbnail** is settled in `Branding/THUMBNAIL_SYSTEM.md` (portrait lit for paper, made once per guest at casting).

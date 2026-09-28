@@ -47,7 +47,9 @@ def main(ep, part='1'):
     part = part if str(part).upper().startswith('P') else f'P{part}'
     part = part.upper()
     kit = open(os.path.join(ep, f'{part}_kit.md'), encoding='utf-8').read()
-    shots = os.path.join(ep, 'shots'); outd = os.path.join(shots, 'start_frames')
+    shots = os.path.join(ep, 'Shots')   # the folder is Shots/ (2026-09-24 ledger); 'shots' only worked on the Mac's
+    if not os.path.isdir(shots) and os.path.isdir(os.path.join(ep, 'shots')): shots = os.path.join(ep, 'shots')   # case-insensitive disk
+    outd = os.path.join(shots, 'start_frames')
     os.makedirs(outd, exist_ok=True)
     pairs = []
     for row in re.split(r'\n(?=\*\*' + part + r'_\d{3}[a-z]?\*\* · )', kit):
@@ -82,7 +84,7 @@ def main(ep, part='1'):
         if not os.path.exists(frame):
             if at: frame_at(s_clip, float(at[:-1]), frame); _lift(frame); made = f'  NEW (at {at}, the cut point, +{LIFT}%)'
             else:  last_frame(s_clip, frame); made = f'  NEW (+{LIFT}%)'
-        line = f'  {tgt}  start frame ready: shots/start_frames/{tgt}_start.png{made}'
+        line = f'  {tgt}  start frame ready: {os.path.basename(shots)}/start_frames/{tgt}_start.png{made}'
         if os.path.exists(t_clip):
             tmp = os.path.join(tempfile.gettempdir(), tgt + '_first.png'); first_frame(t_clip, tmp)   # outside the project: the bridge cannot delete there
             raw = os.path.join(tempfile.gettempdir(), tgt + '_srcraw.png')
@@ -106,8 +108,9 @@ def main(ep, part='1'):
             off = max(abs(x - 1) for x in g) * 100
             f = 'none needed' if off < 1.0 else f'`colorchannelmixer=rr={g[0]:.3f}:gg={g[1]:.3f}:bb={g[2]:.3f}`'
             out.append(f'| `{tgt}` | `{src}` | {off:.1f}% | {f} |')
+        os.makedirs(os.path.join(shots, '_measure'), exist_ok=True)   # the folder went to _v1_archive/ on 2026-09-23
         open(os.path.join(shots, '_measure', 'JOIN_GRADES.md'), 'w', encoding='utf-8').write('\n'.join(out) + '\n')
-        print('\nJoin grades written: shots/_measure/JOIN_GRADES.md')
+        print(f'\nJoin grades written: {os.path.join(shots, "_measure", "JOIN_GRADES.md")}')
 
 if __name__ == '__main__':
     if len(sys.argv) < 2: sys.exit(__doc__)
